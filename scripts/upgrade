@@ -28,6 +28,7 @@ db_user=$db_name
 db_pwd=$(ynh_app_setting_get --app=$app --key=psqlpwd)
 datadir=$(ynh_app_setting_get --app=$app --key=datadir)
 secret_key_base=$(ynh_app_setting_get --app=$app --key=secret_key_base)
+port=$(ynh_app_setting_get --app=$app --key=port)
 
 #=================================================
 # CHECK VERSION
