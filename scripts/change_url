@@ -117,6 +117,8 @@ fi
 #=================================================
 ynh_script_progression --message="Updating a configuration file..."
 
+domain=$new_domain
+path_url=$new_path
 ynh_add_config --template="../conf/secrets.yml" --destination="$final_path/config/secrets.yml"
 chmod 400 "$final_path/config/secrets.yml"
 chown $app:$app "$final_path/config/secrets.yml"
