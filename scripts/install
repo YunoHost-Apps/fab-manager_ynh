@@ -187,7 +187,7 @@ ynh_script_progression --message="Configuring a systemd service..."
 # Create a dedicated systemd config
 ynh_add_supervisor_config
 systemctl daemon-reload
-systemctl enable elasticsearch.service
+systemctl enable elasticsearch.service --quiet
 
 #=================================================
 # GENERIC FINALIZATION

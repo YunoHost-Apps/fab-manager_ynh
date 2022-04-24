@@ -179,7 +179,8 @@ ynh_use_logrotate --non-append
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --log="/var/log/$app/$app.log"
+yunohost service add $app --log="/var/log/supervisor/$app-app-stdout.log /var/log/supervisor/$app-worker-stdout.log"
+yunohost service add elasticsearch --log="/var/log/elasticsearch/elasticsearch.log"
 
 #=================================================
 # START SYSTEMD SERVICE
