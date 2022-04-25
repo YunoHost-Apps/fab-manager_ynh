@@ -114,8 +114,6 @@ pushd $final_path
 	ynh_use_nodejs
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn cache clean
-	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake db:migrate
-	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
 	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake assets:precompile
 	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake fablab:es:build_stats
 popd
