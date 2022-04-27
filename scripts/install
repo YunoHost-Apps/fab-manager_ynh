@@ -79,7 +79,6 @@ ynh_install_app_dependencies $pkg_dependencies $build_pkg_dependencies
 ynh_install_ruby --ruby_version=$ruby_version
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 ynh_install_extra_app_dependencies --repo="deb https://dl.yarnpkg.com/debian/ stable main" --package="yarn" --key="https://dl.yarnpkg.com/debian/pubkey.gpg"
-ynh_install_extra_app_dependencies --repo="deb https://artifacts.elastic.co/packages/8.x/apt stable main" --package="elasticsearch" --key="https://artifacts.elastic.co/GPG-KEY-elasticsearch"
 
 #=================================================
 # CREATE DEDICATED USER
@@ -158,12 +157,10 @@ pushd $final_path
 	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake db:migrate
 	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
 	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake assets:precompile
-	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production RACK_ENV=production $ynh_ruby_load_path bin/bundle exec rake fablab:es:build_stats
 popd
 
 ynh_install_app_dependencies $pkg_dependencies
 ynh_install_extra_app_dependencies --repo="deb https://dl.yarnpkg.com/debian/ stable main" --package="yarn" --key="https://dl.yarnpkg.com/debian/pubkey.gpg"
-ynh_install_extra_app_dependencies --repo="deb https://artifacts.elastic.co/packages/8.x/apt stable main" --package="elasticsearch" --key="https://artifacts.elastic.co/GPG-KEY-elasticsearch"
 
 #=================================================
 # CREATE DATA DIRECTORY
@@ -186,8 +183,6 @@ ynh_script_progression --message="Configuring a systemd service..."
 
 # Create a dedicated systemd config
 ynh_add_supervisor_config
-systemctl daemon-reload
-systemctl enable elasticsearch.service --quiet
 
 #=================================================
 # GENERIC FINALIZATION
@@ -205,7 +200,6 @@ ynh_use_logrotate
 ynh_script_progression --message="Integrating service in YunoHost..."
 
 yunohost service add $app --log="/var/log/supervisor/$app-app-stdout.log /var/log/supervisor/$app-worker-stdout.log"
-yunohost service add elasticsearch --log="/var/log/elasticsearch/elasticsearch.log"
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -214,7 +208,6 @@ ynh_script_progression --message="Starting a systemd service..."
 
 # Start a systemd service
 ynh_supervisor_action --service_name=$app --action="start" --log_path="/var/log/supervisor/$app-app-stdout.log" --line_match="Listening on"
-ynh_systemd_action --service_name=elasticsearch --action="restart" --log_path="systemd" --line_match="Started"
 
 #=================================================
 # SETUP SSOWAT
