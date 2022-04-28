@@ -1,0 +1,14 @@
+# For staging & production environments, copy this file to database.yml
+# For development & test environments, you can use this file OR config/database.yml.default
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 25
+  username: __DB_USER__
+  password: __DB_PWD__
+  host: localhost
+
+production:
+  <<: *default
+  database: __DB_NAME__
