@@ -101,6 +101,7 @@ ynh_psql_setup_db --db_user=$db_user --db_name=$db_name
 ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH SUPERUSER;" --database="$db_name"
 ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS unaccent;" --database=$db_name
 ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS pg_trgm;" --database=$db_name
+fynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;" --database=$db_name
 ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH NOSUPERUSER;" --database="$db_name"
 db_pwd=$(ynh_app_setting_get --app=$app --key=psqlpwd)
 
