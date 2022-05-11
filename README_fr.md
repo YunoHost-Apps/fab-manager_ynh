@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 
 
-**Version incluse :** 5.3.12~ynh2
+**Version incluse :** 5.3.12~ynh3
 
 **Démo :** https://www.fab-manager.com/fr/demo
 

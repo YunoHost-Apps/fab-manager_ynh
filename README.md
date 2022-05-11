@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Fab Lab management solution.
 
-**Shipped version:** 5.3.12~ynh2
+**Shipped version:** 5.3.12~ynh3
 
 **Demo:** https://www.fab-manager.com/fr/demo
 
