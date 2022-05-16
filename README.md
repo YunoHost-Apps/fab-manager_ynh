@@ -15,7 +15,8 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Overview
 
-Fab Lab management solution.
+Fab-manager is the Fab Lab management solution. It provides a comprehensive, web-based, open-source tool to simplify your administrative tasks, and document your marker's projects.
+
 
 **Shipped version:** 5.4.0~ynh1
 
