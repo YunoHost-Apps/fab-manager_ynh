@@ -58,16 +58,11 @@ ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 #=================================================
 # SPECIFIC BACKUP
 #=================================================
-# BACKUP LOGROTATE
-#=================================================
-
-ynh_backup --src_path="/etc/logrotate.d/$app"
-
-#=================================================
 # BACKUP SYSTEMD
 #=================================================
 
-ynh_backup --src_path="/etc/supervisor/conf.d/$app.conf"
+ynh_backup --src_path="/etc/systemd/system/$app-app.service"
+ynh_backup --src_path="/etc/systemd/system/$app-worker.service"
 
 #=================================================
 # BACKUP THE POSTGRESQL DATABASE
