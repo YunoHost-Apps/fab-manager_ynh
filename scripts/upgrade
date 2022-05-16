@@ -130,8 +130,6 @@ ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies $build_pkg_dep
 ynh_exec_warn_less ynh_install_ruby --ruby_version=$ruby_version
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 ynh_exec_warn_less ynh_install_extra_app_dependencies --repo="deb https://dl.yarnpkg.com/debian/ stable main" --package="yarn" --key="https://dl.yarnpkg.com/debian/pubkey.gpg"
-ynh_use_ruby
-ynh_use_nodejs
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -156,11 +154,13 @@ ynh_script_progression --message="Building app..."
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	pushd $final_path
+		ynh_use_ruby
 		ynh_exec_warn_less $ynh_gem install bundler
 		ynh_exec_warn_less bin/bundle config --global frozen 1
 		ynh_exec_warn_less bin/bundle config set --local without 'development test doc'
 		ynh_exec_warn_less bin/bundle install
 		ynh_exec_warn_less bin/bundle binstubs --all
+		ynh_use_nodejs
 		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
 		ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH SUPERUSER;" --database="$db_name"
 		ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake db:migrate
