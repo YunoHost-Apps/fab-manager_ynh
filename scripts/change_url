@@ -7,7 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_supervisor
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -79,7 +78,8 @@ fi
 #=================================================
 ynh_script_progression --message="Stopping a systemd service..."
 
-ynh_supervisor_action --service_name=$app --action="stop" --log_path="/var/log/supervisor/$app-app-stdout.log"
+ynh_systemd_action --service_name=${app}-app --action="stop" --log_path=systemd --line_match="Stopped"
+ynh_systemd_action --service_name=${app}-worker --action="stop" --log_path=systemd --line_match="Stopped"
 
 #=================================================
 # MODIFY URL IN NGINX CONF
@@ -131,7 +131,8 @@ chown $app:$app "$final_path/config/secrets.yml"
 ynh_script_progression --message="Starting a systemd service..."
 
 # Start a systemd service
-ynh_supervisor_action --service_name=$app --action="start" --log_path="/var/log/supervisor/$app-app-stdout.log" --line_match="Listening on"
+ynh_systemd_action --service_name=${app}-app --action="start" --log_path=systemd --line_match="Listening on"
+ynh_systemd_action --service_name=${app}-worker --action="start" --log_path=systemd --line_match="Schedules Loaded"
 
 #=================================================
 # RELOAD NGINX
