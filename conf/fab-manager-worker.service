@@ -1,0 +1,18 @@
+[Unit]
+Description=__APP__-worker
+After=network.target
+
+[Service]
+Type=simple
+User=__APP__
+WorkingDirectory=__FINALPATH__
+Environment="__LD_PRELOAD__"
+Environment="__YNH_RUBY_LOAD_PATH__"
+Environment="RAILS_ENV=production"
+ExecStart=__FINALPATH__/bin/bundle exec sidekiq -C __FINALPATH__/config/sidekiq.yml
+TimeoutSec=15
+Restart=always
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target

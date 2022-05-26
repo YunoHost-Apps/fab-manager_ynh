@@ -1,0 +1,20 @@
+[Unit]
+Description=__APP__-app
+After=network.target
+
+[Service]
+Type=simple
+User=__APP__
+WorkingDirectory=__FINALPATH__
+Environment="__LD_PRELOAD__"
+Environment="__YNH_RUBY_LOAD_PATH__"
+Environment="RAILS_ENV=production"
+ExecStartPre=-/bin/bash -c 'rm -f __FINAL_PATH__/tmp/pids/server.pid'
+ExecStart=__FINALPATH__/bin/bundle exec rails s puma -p __PORT__ -b 0.0.0.0
+ExecReload=/bin/kill -SIGUSR1 $MAINPID
+TimeoutSec=15
+Restart=always
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
