@@ -112,8 +112,8 @@ then
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path" --keep="config/secrets.yml config/database.yml"
 
-	cp "$tmpdir/secrets.yml" "$final_path/config/database.yml"
-	cp "$tmpdir/database.yml" "$final_path/config/database.yml"
+	cp -f "$tmpdir/secrets.yml" "$final_path/config/database.yml"
+	cp -f "$tmpdir/database.yml" "$final_path/config/database.yml"
 	ynh_secure_remove --file="$tmpdir"
 fi
 
