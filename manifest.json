@@ -56,7 +56,11 @@
             },
             {
                 "name": "password",
-                "type": "password"
+                "type": "password",
+                "help": {
+                    "en": "12 characters minimum, at least one upper case letter, one lower case letter, one number and one special character.",
+                    "fr": "12 caractères minimum, au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial."
+                }
             }
         ]
     }
