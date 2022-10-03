@@ -24,7 +24,7 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 # Needed for helper "ynh_add_nginx_config"
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
@@ -40,12 +40,11 @@ secret_key_base=$(ynh_app_setting_get --app=$app --key=secret_key_base)
 #=================================================
 # BACKUP BEFORE CHANGE URL THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before changing its URL (may take a while)..."
+ynh_script_progression --message="Backing up the app before changing its URL (may take a while)..." --weight=1
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
 ynh_clean_setup () {
-	ynh_clean_check_starting
 	# Remove the new domain config file, the remove script won't do it as it doesn't know yet its location.
 	ynh_secure_remove --file="/etc/nginx/conf.d/$new_domain.d/$app.conf"
 
@@ -76,7 +75,7 @@ fi
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..."
+ynh_script_progression --message="Stopping a systemd service..." --weight=1
 
 ynh_systemd_action --service_name=${app}-app --action="stop" --log_path=systemd --line_match="Stopped"
 ynh_systemd_action --service_name=${app}-worker --action="stop" --log_path=systemd --line_match="Stopped"
@@ -84,7 +83,7 @@ ynh_systemd_action --service_name=${app}-worker --action="stop" --log_path=syste
 #=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
-ynh_script_progression --message="Updating NGINX web server configuration..."
+ynh_script_progression --message="Updating NGINX web server configuration..." --weight=1
 
 nginx_conf_path=/etc/nginx/conf.d/$old_domain.d/$app.conf
 
@@ -115,7 +114,7 @@ fi
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a configuration file..."
+ynh_script_progression --message="Updating a configuration file..." --weight=1
 
 domain=$new_domain
 path_url=$new_path
@@ -128,7 +127,7 @@ chown $app:$app "$final_path/config/secrets.yml"
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression --message="Starting a systemd service..." --weight=1
 
 # Start a systemd service
 ynh_systemd_action --service_name=${app}-app --action="start" --log_path=systemd --line_match="Listening on"
@@ -137,7 +136,7 @@ ynh_systemd_action --service_name=${app}-worker --action="start" --log_path=syst
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..."
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -145,4 +144,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Change of URL completed for $app"
+ynh_script_progression --message="Change of URL completed for $app" --last
