@@ -4,14 +4,14 @@
 # COMMON VARIABLES
 #=================================================
 
-# dependencies used by the app
+# dependencies used by the app (must be on a single line)
 pkg_dependencies="ntp ntpdate tzdata curl git imagemagick tzdata libc-dev zlib1g-dev xz-utils postgresql postgresql-common postgresql-client libidn11-dev redis-server"
 
 build_pkg_dependencies="build-essential patch libpq-dev"
 
-ruby_version="2.6.9"
+ruby_version="2.6.10"
 
-nodejs_version="12"
+nodejs_version="14"
 
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463

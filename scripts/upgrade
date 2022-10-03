@@ -14,7 +14,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -33,19 +33,18 @@ port=$(ynh_app_setting_get --app=$app --key=port)
 #=================================================
 # CHECK VERSION
 #=================================================
-ynh_script_progression --message="Checking version..."
+ynh_script_progression --message="Checking version..." --weight=1
 
 upgrade_type=$(ynh_check_app_version_changed)
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
 ynh_clean_setup () {
-	ynh_clean_check_starting
 	# Restore it if the upgrade fails
 	ynh_restore_upgradebackup
 }
@@ -57,7 +56,7 @@ ynh_abort_if_errors
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..."
+ynh_script_progression --message="Stopping a systemd service..." --weight=1
 
 ynh_systemd_action --service_name=${app}-app --action="stop" --log_path=systemd --line_match="Stopped"
 ynh_systemd_action --service_name=${app}-worker --action="stop" --log_path=systemd --line_match="Stopped"
@@ -65,7 +64,7 @@ ynh_systemd_action --service_name=${app}-worker --action="stop" --log_path=syste
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..."
+ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
 # Cleaning legacy permissions
 if ynh_legacy_permissions_exists; then
@@ -92,7 +91,7 @@ ynh_secure_remove --file="/var/log/supervisor/$app-worker-stdout.log"
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..."
+ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
 
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app --home_dir="$final_path"
@@ -103,10 +102,19 @@ ynh_system_user_create --username=$app --home_dir="$final_path"
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-	ynh_script_progression --message="Upgrading source files..."
+	ynh_script_progression --message="Upgrading source files..." --weight=1
+
+	tmpdir="$(mktemp -d)"
+	cp "$final_path/config/secrets.yml" "$tmpdir/secrets.yml"
+	cp "$final_path/config/database.yml" "$tmpdir/database.yml"
+	ynh_secure_remove --file="$final_path"
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path" --keep="config/secrets.yml config/database.yml"
+
+	cp -f "$tmpdir/secrets.yml" "$final_path/config/secrets.yml"
+	cp -f "$tmpdir/database.yml" "$final_path/config/database.yml"
+	ynh_secure_remove --file="$tmpdir"
 fi
 
 chmod 750 "$final_path"
@@ -114,17 +122,9 @@ chmod -R o-rwx "$final_path"
 chown -R $app:www-data "$final_path"
 
 #=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
-
-# Create a dedicated NGINX config
-ynh_add_nginx_config
-
-#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..."
+ynh_script_progression --message="Upgrading dependencies..." --weight=1
 
 ynh_exec_warn_less ynh_install_app_dependencies $pkg_dependencies $build_pkg_dependencies
 ynh_exec_warn_less ynh_install_ruby --ruby_version=$ruby_version
@@ -132,11 +132,19 @@ ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 ynh_exec_warn_less ynh_install_extra_app_dependencies --repo="deb https://dl.yarnpkg.com/debian/ stable main" --package="yarn" --key="https://dl.yarnpkg.com/debian/pubkey.gpg"
 
 #=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
+
+# Create a dedicated NGINX config
+ynh_add_nginx_config
+
+#=================================================
 # SPECIFIC UPGRADE
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a configuration file..."
+ynh_script_progression --message="Updating a configuration file..." --weight=1
 
 ynh_add_config --template="../conf/secrets.yml" --destination="$final_path/config/secrets.yml"
 chmod 400 "$final_path/config/secrets.yml"
@@ -149,11 +157,14 @@ chown $app:$app "$final_path/config/database.yml"
 #=================================================
 # BUILD APP
 #=================================================
-ynh_script_progression --message="Building app..."
+ynh_script_progression --message="Building app..." --weight=1
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	pushd $final_path
+		ynh_secure_remove --file="$final_path/.cache"
+		ynh_secure_remove --file="$final_path/node_modules"
+		ynh_secure_remove --file="$final_path/tmp/cache"
 		ynh_use_ruby
 		ynh_exec_warn_less $ynh_gem install bundler
 		ynh_exec_warn_less bin/bundle config --global frozen 1
@@ -166,16 +177,18 @@ then
 		ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake db:migrate
 		ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH NOSUPERUSER;" --database="$db_name"
 		ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake assets:precompile
+		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn cache clean --all
 	popd
 fi
 
 ynh_install_app_dependencies $pkg_dependencies
 ynh_install_extra_app_dependencies --repo="deb https://dl.yarnpkg.com/debian/ stable main" --package="yarn" --key="https://dl.yarnpkg.com/debian/pubkey.gpg"
+ynh_secure_remove --file="$final_path/.cache"
 
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_script_progression --message="Upgrading systemd configuration..."
+ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
 
 # Create a dedicated systemd config
 ynh_add_systemd_config --service="$app-app" --template="fab-manager-app.service"
@@ -186,7 +199,7 @@ ynh_add_systemd_config --service="$app-worker" --template="fab-manager-worker.se
 #=================================================
 # INTEGRATE SERVICE IN YUNOHOST
 #=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
+ynh_script_progression --message="Integrating service in YunoHost..." --weight=1
 
 yunohost service add "$app-app" --description="$app app service"
 yunohost service add "$app-worker" --description="$app worker service"
@@ -194,7 +207,7 @@ yunohost service add "$app-worker" --description="$app worker service"
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression --message="Starting a systemd service..." --weight=1
 
 ynh_systemd_action --service_name=${app}-app --action="start" --log_path=systemd --line_match="Listening on"
 ynh_systemd_action --service_name=${app}-worker --action="start" --log_path=systemd --line_match="Schedules Loaded"
@@ -202,7 +215,7 @@ ynh_systemd_action --service_name=${app}-worker --action="start" --log_path=syst
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..."
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -210,4 +223,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed"
+ynh_script_progression --message="Upgrade of $app completed" --last
