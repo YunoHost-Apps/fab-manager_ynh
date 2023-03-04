@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Fab-manager for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/fab-manager.svg)](https://dash.yunohost.org/appci/app/fab-manager) ![Working status](https://ci-apps.yunohost.org/ci/badges/fab-manager.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/fab-manager.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/fab-manager.svg)](https://dash.yunohost.org/appci/app/fab-manager) ![Working status](https://ci-apps.yunohost.org/ci/badges/fab-manager.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/fab-manager.maintain.svg)
+
 [![Install Fab-manager with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=fab-manager)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -18,7 +19,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 Fab-manager is the Fab Lab management solution. It provides a comprehensive, web-based, open-source tool to simplify your administrative tasks, and document your marker's projects.
 
 
-**Shipped version:** 5.6.5~ynh1
+**Shipped version:** 5.8.1~ynh1
 
 **Demo:** https://www.fab-manager.com/fr/demo
 
