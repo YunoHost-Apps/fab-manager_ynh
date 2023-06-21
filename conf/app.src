@@ -1,5 +1,5 @@
-SOURCE_URL=https://api.github.com/repos/sleede/fab-manager/tarball/v5.6.5
-SOURCE_SUM=dc6ae9fefd893975ee2b70c5b327a37b3d585dcf223ddffe75cc0b570771102d
+SOURCE_URL=https://api.github.com/repos/sleede/fab-manager/tarball/v6.0.7
+SOURCE_SUM=f1c5fd6bb4a31ad33ba4a2ae5fad1ba3cfbaaa33d4dfddf9876b8ea6566eb507
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
