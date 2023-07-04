@@ -9,7 +9,7 @@ pkg_dependencies="ntp ntpdate tzdata curl git imagemagick tzdata libc-dev zlib1g
 
 build_pkg_dependencies="build-essential patch libpq-dev"
 
-ruby_version="3.0.6"
+ruby_version="3.2.3"
 
 nodejs_version="16"
 
