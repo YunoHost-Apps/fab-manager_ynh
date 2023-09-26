@@ -9,9 +9,9 @@ pkg_dependencies="ntp ntpdate tzdata curl git imagemagick tzdata libc-dev zlib1g
 
 build_pkg_dependencies="build-essential patch libpq-dev"
 
-ruby_version="2.6.10"
+ruby_version="3.2.3"
 
-nodejs_version="14"
+nodejs_version="18"
 
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463
