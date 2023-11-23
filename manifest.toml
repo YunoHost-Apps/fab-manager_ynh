@@ -53,8 +53,9 @@ ram.runtime = "50M"
 
 [resources]
         [resources.sources.main]
-        url = "https://api.github.com/repos/sleede/fab-manager/tarball/v5.6.5"
-        sha256 = "dc6ae9fefd893975ee2b70c5b327a37b3d585dcf223ddffe75cc0b570771102d"
+        url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.3.4.tar.gz"
+        sha256 = "d609e8d2e0085eec5b240e709eca1412685b47f10ea4ca413ca7535beb7e7a8a"
+        autoupdate.strategy = "latest_github_tag"
 
 
     [resources.system_user]
