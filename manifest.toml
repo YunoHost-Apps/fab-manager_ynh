@@ -63,11 +63,13 @@ ram.runtime = "50M"
 
     [resources.data_dir]
 
+    [resources.ports]
+
     [resources.permissions]
     main.url = "/"
 
     [resources.apt]
-    packages = "postgresql"
+    packages = "build-essential, patch, libpq-dev, ntp, ntpdate, tzdata, curl, git, imagemagick, libc-dev, zlib1g-dev, xz-utils, postgresql, libidn11-dev"
 
     extras.yarn.repo = "deb https://dl.yarnpkg.com/debian/ stable main"
     extras.yarn.key = "https://dl.yarnpkg.com/debian/pubkey.gpg"
