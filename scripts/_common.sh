@@ -6,7 +6,7 @@
 
 ruby_version="2.6.10"
 
-nodejs_version="14"
+nodejs_version="18"
 
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463

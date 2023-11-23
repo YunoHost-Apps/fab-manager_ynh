@@ -9,7 +9,7 @@ WorkingDirectory=__INSTALL_DIR__
 Environment="__LD_PRELOAD__"
 Environment="__YNH_RUBY_LOAD_PATH__"
 Environment="RAILS_ENV=production"
-ExecStartPre=-/bin/bash -c 'rm -f __FINAL_PATH__/tmp/pids/server.pid'
+ExecStartPre=-/bin/bash -c 'rm -f __INSTALL_DIR__/tmp/pids/server.pid'
 ExecStart=__INSTALL_DIR__/bin/bundle exec rails s puma -p __PORT__ -b 0.0.0.0
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 TimeoutSec=15

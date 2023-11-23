@@ -4,7 +4,7 @@ id = "fab-manager"
 name = "Fab-manager"
 description.en = "Fab Lab management solution."
 
-version = "5.6.5~ynh1"
+version = "6.3.4~ynh1"
 
 maintainers = []
 
