@@ -5,9 +5,9 @@
 #=================================================
 
 # dependencies used by the app (must be on a single line)
-pkg_dependencies="ntp ntpdate tzdata curl git imagemagick tzdata libc-dev zlib1g-dev xz-utils postgresql postgresql-common postgresql-client libidn11-dev redis-server"
+#REMOVEME? pkg_dependencies="ntp ntpdate tzdata curl git imagemagick tzdata libc-dev zlib1g-dev xz-utils postgresql postgresql-common postgresql-client libidn11-dev redis-server"
 
-build_pkg_dependencies="build-essential patch libpq-dev"
+#REMOVEME? build_pkg_dependencies="build-essential patch libpq-dev"
 
 ruby_version="2.6.10"
 
