@@ -70,7 +70,7 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.apt]
-    packages = "build-essential, patch, libpq-dev, ntp, ntpdate, tzdata, curl, git, imagemagick, libc-dev, zlib1g-dev, xz-utils, postgresql, libidn11-dev"
+    packages = "build-essential, patch, libpq-dev, ntp, ntpdate, tzdata, curl, git, imagemagick, libc-dev, zlib1g-dev, xz-utils, postgresql, libidn11-dev, shared-mime-info"
 
     extras.yarn.repo = "deb https://dl.yarnpkg.com/debian/ stable main"
     extras.yarn.key = "https://dl.yarnpkg.com/debian/pubkey.gpg"
