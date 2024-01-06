@@ -55,17 +55,8 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	ynh_script_progression --message="Upgrading source files..." --weight=1
 
-	tmpdir="$(mktemp -d)"
-	cp "$install_dir/config/secrets.yml" "$tmpdir/secrets.yml"
-	cp "$install_dir/config/database.yml" "$tmpdir/database.yml"
-#REMOVEME? 	ynh_secure_remove --file="$install_dir"
-
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$install_dir" --keep="config/secrets.yml config/database.yml"
-
-	cp -f "$tmpdir/secrets.yml" "$install_dir/config/secrets.yml"
-	cp -f "$tmpdir/database.yml" "$install_dir/config/database.yml"
-	ynh_secure_remove --file="$tmpdir"
 fi
 
 chmod -R o-rwx "$install_dir"
