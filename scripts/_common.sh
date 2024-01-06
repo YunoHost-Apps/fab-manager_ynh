@@ -1,7 +1,7 @@
 #!/bin/bash
 
 nodejs_version="18"
-ruby_version="2.7.0"
+ruby_version="3.2.3"
 
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463
