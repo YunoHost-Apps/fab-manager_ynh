@@ -50,8 +50,8 @@ ram.runtime = "50M"
         sha256 = "d609e8d2e0085eec5b240e709eca1412685b47f10ea4ca413ca7535beb7e7a8a"
         autoupdate.strategy = "latest_github_tag"
 
-
     [resources.system_user]
+    allow_email = true
 
     [resources.install_dir]
 
