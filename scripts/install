@@ -1,27 +1,11 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
-#source ynh_install_ruby__2
 source /usr/share/yunohost/helpers
 
-#=================================================
-# RETRIEVE ARGUMENTS FROM THE MANIFEST
-#=================================================
-
-secret_key_base=$(ynh_string_random --length=30)
 admin_mail=$(ynh_user_get_info --username=$admin --key=mail)
 
-#=================================================
-# STORE SETTINGS FROM MANIFEST
-#=================================================
-ynh_script_progression --message="Storing installation settings..." --weight=1
-
+secret_key_base=$(ynh_string_random --length=30)
 ynh_app_setting_set --app=$app --key=secret_key_base --value=$secret_key_base
 
 #=================================================
