@@ -146,11 +146,11 @@ chown -R $app:www-data "$datadir"
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
 
-ynh_add_config --template="../conf/secrets.yml" --destination="$final_path/config/secrets.yml"
+ynh_add_config --template="secrets.yml" --destination="$final_path/config/secrets.yml"
 chmod 400 "$final_path/config/secrets.yml"
 chown $app:$app "$final_path/config/secrets.yml"
 
-ynh_add_config --template="../conf/database.yml" --destination="$final_path/config/database.yml"
+ynh_add_config --template="database.yml" --destination="$final_path/config/database.yml"
 chmod 400 "$final_path/config/database.yml"
 chown $app:$app "$final_path/config/database.yml"
 
@@ -166,6 +166,7 @@ pushd $final_path
 	ynh_exec_warn_less bin/bundle config set --local without 'development test doc'
 	ynh_exec_warn_less bin/bundle install
 	ynh_exec_warn_less bin/bundle binstubs --all
+	
 	ynh_use_nodejs
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
 	ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH SUPERUSER;" --database="$db_name"
