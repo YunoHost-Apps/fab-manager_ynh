@@ -32,7 +32,7 @@ Fab-manager is the Fab Lab management solution. It provides a comprehensive, web
 * Official app website: <https://www.fab-manager.com>
 * Official admin documentation: <http://doc.fab.mn>
 * Upstream app code repository: <https://github.com/sleede/fab-manager>
-* YunoHost documentation for this app: <https://yunohost.org/app_fab-manager>
+* YunoHost Store: <https://apps.yunohost.org/app/fab-manager>
 * Report a bug: <https://github.com/YunoHost-Apps/fab-manager_ynh/issues>
 
 ## Developer info
