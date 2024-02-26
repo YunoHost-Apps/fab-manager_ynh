@@ -82,7 +82,7 @@ pushd $install_dir
 	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake db:migrate
 	ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH NOSUPERUSER;" --database="$db_name"
 	ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
-	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
+	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake --trace db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
 	#ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload yarn install
 	#ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/webpack
 	( ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake assets:precompile )
