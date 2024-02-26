@@ -4,9 +4,9 @@
 # COMMON VARIABLES
 #=================================================
 
-ruby_version="3.1"
+ruby_version="3.2.2"
 
-nodejs_version="18"
+nodejs_version="18.15"
 
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463
