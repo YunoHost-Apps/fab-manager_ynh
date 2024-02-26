@@ -47,6 +47,7 @@ ruby_version_path="$rbenv_install_dir/versions"
 # RBENV_ROOT is the directory of rbenv, it needs to be loaded as a environment variable.
 export RBENV_ROOT="$rbenv_install_dir"
 export rbenv_root="$rbenv_install_dir"
+export DEFAULT_HOST="$domain"
 
 # Load the version of Ruby for an app, and set variables.
 #
