@@ -213,6 +213,21 @@ ynh_install_ruby () {
         git clone -q https://github.com/tpope/rbenv-aliases.git "${rbenv_install_dir}/plugins/rbenv-aliase"
     fi
 
+    rbenv_vars="$(command -v "$rbenv_install_dir"/plugins/*/bin/rbenv-vars rbenv-vars | head -1)"
+    if [ -n "$rbenv_vars" ]; then
+        ynh_print_info --message="\`rbenv vars' command already available in \`$rbenv_vars'."
+        pushd "${rbenv_vars%/*/*}"
+            if git remote -v 2>/dev/null | grep "https://github.com/rbenv/rbenv-vars.git"; then
+                ynh_print_info --message="Trying to update rbenv-vars with git..."
+                git pull -q origin master
+            fi
+        popd
+    else
+        ynh_print_info --message="Installing rbenv-vars with git..."
+        mkdir -p "${rbenv_install_dir}/plugins"
+        git clone -q https://github.com/rbenv/rbenv-vars.git "${rbenv_install_dir}/plugins/rbenv-vars"
+    fi
+
     rbenv_latest="$(command -v "$rbenv_install_dir"/plugins/*/bin/rbenv-latest rbenv-latest | head -1)"
     if [ -n "$rbenv_latest" ]; then
         ynh_print_info --message="\`rbenv latest' command already available in \`$rbenv_latest'."
