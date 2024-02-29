@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source _common.sh
+source ynh_install_ruby__2
 source /usr/share/yunohost/helpers
 
 admin_mail=$(ynh_user_get_info --username=$admin --key=mail)
