@@ -15,7 +15,7 @@ source /usr/share/yunohost/helpers
 ynh_script_progression --message="Reinstalling NodeJS..." --weight=1
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version="$nodejs_version"
 
-ynh_script_progression --message="Reinstalling Ruby..." --weight=1
+ynh_script_progression --message="Reinstalling Ruby..." --weight=4
 ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
 
 #=================================================
@@ -54,7 +54,7 @@ ynh_psql_connect_as --user="$db_user" --password="$db_pwd" --database="$db_name"
 #=================================================
 # BUILD APP
 #=================================================
-ynh_script_progression --message="Building app..." --weight=1
+ynh_script_progression --message="Building app..." --weight=7
 
 fabmanager_build_ruby
 

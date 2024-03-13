@@ -42,7 +42,7 @@ ynh_secure_remove --file="/var/log/supervisor/$app-worker-stdout.log"
 ynh_script_progression --message="Updating NodeJS..." --weight=1
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version="$nodejs_version"
 
-ynh_script_progression --message="Updating Ruby..." --weight=1
+ynh_script_progression --message="Updating Ruby..." --weight=4
 ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
 
 #=================================================
@@ -72,7 +72,7 @@ chown "$app:$app" "$install_dir/config/database.yml"
 #=================================================
 # BUILD APP
 #=================================================
-ynh_script_progression --message="Building app..." --weight=1
+ynh_script_progression --message="Building app..." --weight=7
 
 ynh_secure_remove --file="$install_dir/.cache"
 ynh_secure_remove --file="$install_dir/node_modules"
