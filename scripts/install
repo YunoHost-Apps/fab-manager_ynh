@@ -48,19 +48,8 @@ ynh_setup_source --dest_dir="$install_dir"
 chmod -R o-rwx "$install_dir"
 chown -R "$app:www-data" "$install_dir"
 
-#=================================================
-# CREATE DATA DIRECTORY
-#=================================================
-ynh_script_progression --message="Creating a data directory..." --weight=1
-
-#REMOVEME? data_dir=/home/yunohost.app/$app
-#REMOVEME? ynh_app_setting_set --app=$app --key=data_dir --value=$data_dir
-
-mkdir -p $data_dir
-
-chmod 750 "$data_dir"
 chmod -R o-rwx "$data_dir"
-chown -R $app:www-data "$data_dir"
+chown -R "$app:www-data" "$data_dir"
 
 #=================================================
 # ADD A CONFIGURATION
@@ -69,37 +58,23 @@ ynh_script_progression --message="Adding a configuration file..." --weight=1
 
 ynh_add_config --template="secrets.yml" --destination="$install_dir/config/secrets.yml"
 chmod 400 "$install_dir/config/secrets.yml"
-chown $app:$app "$install_dir/config/secrets.yml"
+chown "$app:$app" "$install_dir/config/secrets.yml"
 
 ynh_add_config --template="database.yml" --destination="$install_dir/config/database.yml"
 chmod 400 "$install_dir/config/database.yml"
-chown $app:$app "$install_dir/config/database.yml"
+chown "$app:$app" "$install_dir/config/database.yml"
 
 #=================================================
 # BUILD APP
 #=================================================
 ynh_script_progression --message="Building app..." --weight=1
 
-pushd $install_dir
-	ynh_use_ruby
-	ynh_exec_warn_less $ynh_gem install "bundler:$bundler_version"
-	ynh_exec_warn_less bin/bundle config --global frozen 1
-	ynh_exec_warn_less bin/bundle config set --local without 'development test doc'
-	ynh_exec_warn_less bin/bundle install
-	ynh_exec_warn_less bin/bundle binstubs --all
+fabmanager_build_ruby
 
-	ynh_use_nodejs
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
-	ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH SUPERUSER;" --database="$db_name"
-	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake db:migrate
-	ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH NOSUPERUSER;" --database="$db_name"
-	ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
-	ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
-	#ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload yarn install
-	#ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/webpack
-	( ynh_exec_warn_less ynh_exec_as $app env RAILS_ENV=production $ynh_ruby_load_path $ld_preload bin/bundle exec rake assets:precompile )
-	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn cache clean --all
-popd
+fabmanager_migrate_db
+fabmanager_seed_db
+
+fabmanager_build_ui
 
 ynh_secure_remove --file="$install_dir/.cache"
 
