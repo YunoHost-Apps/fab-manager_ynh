@@ -1,0 +1,14 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/tests.v1.schema.json
+
+test_format = 1.0
+
+[default]
+
+    # ------------
+    # Tests to run
+    # ------------
+
+    test_upgrade_from.b5305cfd99c5d0d356cf64e9d490e91d9b0cbae0.name = "5.3.12~ynh1"
+    test_upgrade_from.de58f811f3bc27205ba2b1fbaed250253b1f13c8.name = "5.3.12~ynh2"
+    test_upgrade_from.4bb8d26c2eb018884928dc0dcac738dcec5da70e.name = "5.4.0~ynh1"
+    test_upgrade_from.d607f5178efabfbe14bb4d8e51646020b53b7291.name = "5.4.4~ynh1"
