@@ -161,12 +161,12 @@ ynh_script_progression --message="Building app..." --weight=1
 
 pushd $final_path
 	ynh_use_ruby
-	ynh_exec_warn_less $ynh_gem install bundler
+	ynh_exec_warn_less $ynh_gem install "bundler:$bundler_version"
 	ynh_exec_warn_less bin/bundle config --global frozen 1
 	ynh_exec_warn_less bin/bundle config set --local without 'development test doc'
 	ynh_exec_warn_less bin/bundle install
 	ynh_exec_warn_less bin/bundle binstubs --all
-	
+
 	ynh_use_nodejs
 	ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install
 	ynh_psql_execute_as_root --sql="ALTER USER $db_user WITH SUPERUSER;" --database="$db_name"

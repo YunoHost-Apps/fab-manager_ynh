@@ -10,6 +10,7 @@ pkg_dependencies="ntp ntpdate tzdata curl git imagemagick tzdata libc-dev zlib1g
 build_pkg_dependencies="build-essential patch libpq-dev"
 
 ruby_version="2.6.10"
+bundler_version=2.1.4
 
 nodejs_version="14"
 
