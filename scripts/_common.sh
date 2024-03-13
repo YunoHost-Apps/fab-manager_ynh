@@ -40,7 +40,7 @@ fabmanager_build_ruby() {
 
 fabmanager_seed_db() {
     pushd "$install_dir"
-        ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$final_path/db/seeds.rb"
+        ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
         ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" "$ld_preload" \
             bin/bundle exec rake db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
     popd
