@@ -71,24 +71,36 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
 
     [resources.apt]
     packages = [
-        "ntp",
-        "ntpdate",
-        "tzdata",
-        "curl",
         "git",
         "imagemagick",
-        "tzdata",
         "libc-dev",
-        "zlib1g-dev",
-        "xz-utils",
-        "postgresql",
-        "postgresql-common",
-        "postgresql-client",
         "libidn11-dev",
-        "redis-server",
-        "build-essential",
-        "patch",
         "libpq-dev",
+        "ntp",
+        "ntpdate",
+        "patch",
+        "postgresql-client",
+        "postgresql-common",
+        "postgresql",
+        "redis-server",
+        "tzdata",
+        "xz-utils",
+
+        # For Ruby
+
+        "libjemalloc-dev",
+        "curl",
+        "build-essential",
+        "libreadline-dev",
+        "zlib1g-dev",
+        "libsqlite3-dev",
+        "libssl-dev",
+        "libxml2-dev",
+        "libxslt-dev",
+        "autoconf",
+        "automake",
+        "bison",
+        "libtool",
     ]
 
     [resources.apt.extras.yarn]
