@@ -35,13 +35,6 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
     type = "group"
     default = "visitors"
 
-    [install.language]
-    ask.en = "Choose the application language"
-    ask.fr = "Choisissez la langue de l'application"
-    type = "select"
-    choices = ["fr", "en"]
-    default = "fr"
-
     [install.admin]
     type = "user"
 
