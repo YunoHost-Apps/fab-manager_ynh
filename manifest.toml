@@ -6,7 +6,7 @@ id = "fab-manager"
 name = "Fab-manager"
 description.en = "Fab Lab management solution."
 
-version = "5.6.5~ynh2"
+version = "6.3.9~ynh1"
 
 maintainers = []
 
@@ -21,11 +21,13 @@ code = "https://github.com/sleede/fab-manager"
 yunohost = ">= 11.2"
 architectures = "all"
 multi_instance = false
+
 ldap = false
 sso = false
-disk = "50M" # FIXME: replace with an **estimate** minimum disk requirement. e.g. 20M, 400M, 1G, ...
-ram.build = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
-ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requirement. e.g. 50M, 400M, 1G, ...
+
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
 
 [install]
     [install.domain]
@@ -45,8 +47,8 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
 
 [resources]
     [resources.sources.main]
-    url = "https://api.github.com/repos/sleede/fab-manager/tarball/v5.6.5"
-    sha256 = "dc6ae9fefd893975ee2b70c5b327a37b3d585dcf223ddffe75cc0b570771102d"
+    url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.3.9.tar.gz"
+    sha256 = "b6a68bf91009678a3a666cfd5cab8e3c636ac9fbb920e3e4e4bd29b093c7f43d"
 
     autoupdate.strategy = "latest_github_tag"
 
