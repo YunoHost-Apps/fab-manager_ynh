@@ -29,8 +29,7 @@ fi
 
 ynh_remove_logrotate
 
-ynh_remove_supervisor_config
-
+ynh_secure_remove --file="/etc/supervisor/conf.d/$app.conf"
 ynh_secure_remove --file="/var/log/supervisor/$app-app-stderr.log"
 ynh_secure_remove --file="/var/log/supervisor/$app-app-stdout.log"
 ynh_secure_remove --file="/var/log/supervisor/$app-worker-stderr.log"
