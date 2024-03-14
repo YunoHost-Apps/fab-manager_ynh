@@ -18,10 +18,9 @@ Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) po
 
 Fab-manager is the Fab Lab management solution. It provides a comprehensive, web-based, open-source tool to simplify your administrative tasks, and document your marker's projects.
 
-
 **Version incluse :** 5.6.5~ynh1
 
-**Démo :** https://www.fab-manager.com/fr/demo
+**Démo :** <https://www.fab-manager.com/fr/demo>
 
 ## Captures d’écran
 
@@ -29,11 +28,11 @@ Fab-manager is the Fab Lab management solution. It provides a comprehensive, web
 
 ## Documentations et ressources
 
-* Site officiel de l’app : <https://www.fab-manager.com>
-* Documentation officielle de l’admin : <http://doc.fab.mn>
-* Dépôt de code officiel de l’app : <https://github.com/sleede/fab-manager>
-* YunoHost Store: <https://apps.yunohost.org/app/fab-manager>
-* Signaler un bug : <https://github.com/YunoHost-Apps/fab-manager_ynh/issues>
+- Site officiel de l’app : <https://www.fab-manager.com>
+- Documentation officielle de l’admin : <http://doc.fab.mn>
+- Dépôt de code officiel de l’app : <https://github.com/sleede/fab-manager>
+- YunoHost Store : <https://apps.yunohost.org/app/fab-manager>
+- Signaler un bug : <https://github.com/YunoHost-Apps/fab-manager_ynh/issues>
 
 ## Informations pour les développeurs
 
@@ -41,7 +40,7 @@ Merci de faire vos pull request sur la [branche testing](https://github.com/Yuno
 
 Pour essayer la branche testing, procédez comme suit.
 
-``` bash
+```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing --debug
 ou
 sudo yunohost app upgrade fab-manager -u https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing --debug
