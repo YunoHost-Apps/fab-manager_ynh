@@ -5,7 +5,7 @@
 #=================================================
 
 ruby_version="3.2.2"
-
+#bundler_version=2.1.4
 nodejs_version="18.15"
 
 # Workaround for Mastodon on Bullseye
@@ -29,7 +29,7 @@ fi
 fabmanager_build_ruby() {
     pushd "$install_dir"
         ynh_use_ruby
-        ynh_exec_warn_less $ynh_gem install "bundler:$bundler_version"
+        ynh_exec_warn_less $ynh_gem install "bundler"
         ynh_exec_warn_less bin/bundle config --global frozen 1
         ynh_exec_warn_less bin/bundle config set --local without 'development test doc'
         ynh_exec_warn_less bin/bundle install
