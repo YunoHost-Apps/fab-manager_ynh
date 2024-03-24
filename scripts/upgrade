@@ -10,6 +10,12 @@ source ynh_supervisor
 source /usr/share/yunohost/helpers
 
 #=================================================
+# INITIALIZE AND STORE SETTINGS
+#=================================================
+
+admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
+
+#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Stopping $app's systemd service..." --weight=1

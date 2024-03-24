@@ -7,6 +7,11 @@
 source _common.sh
 source /usr/share/yunohost/helpers
 
+#=================================================
+# INITIALIZE AND STORE SETTINGS
+#=================================================
+
+admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
 
 #=================================================
 # STOP SYSTEMD SERVICE
