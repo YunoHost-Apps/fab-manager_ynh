@@ -6,7 +6,7 @@ id = "fab-manager"
 name = "Fab-manager"
 description.en = "Fab Lab management solution."
 
-version = "5.6.5~ynh2"
+version = "6.3.20~ynh1"
 
 maintainers = []
 
@@ -45,8 +45,8 @@ ram.runtime = "50M" # FIXME: replace with an **estimate** minimum ram requiremen
 
 [resources]
     [resources.sources.main]
-    url = "https://api.github.com/repos/sleede/fab-manager/tarball/v5.6.5"
-    sha256 = "dc6ae9fefd893975ee2b70c5b327a37b3d585dcf223ddffe75cc0b570771102d"
+    url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.3.20.tar.gz"
+    sha256 = "32af7bc596c3625b369cce26b0aea612ca470c08c54f1eb69f2b224b902e8eac"
 
     autoupdate.strategy = "latest_github_tag"
 
