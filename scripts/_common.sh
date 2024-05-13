@@ -6,7 +6,7 @@
 
 ruby_version="3.2.2"
 bundler_version=2.1.4
-nodejs_version="18.15"
+nodejs_version="18"
 
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463
