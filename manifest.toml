@@ -86,6 +86,8 @@ ram.runtime = "50M"
         # For Ruby
 
         "libjemalloc-dev",
+        "libffi-dev",
+        "libyaml-dev",
         "curl",
         "build-essential",
         "libreadline-dev",
