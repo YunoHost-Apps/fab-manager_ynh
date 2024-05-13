@@ -27,13 +27,8 @@ ynh_remove_systemd_config --service="$app-worker"
 # Remove the dedicated NGINX config
 ynh_remove_nginx_config
 
-#=================================================
-# REMOVE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Removing Ruby..." --weight=1
 ynh_remove_ruby
 
-ynh_script_progression --message="Removing NodeJS..." --weight=1
 ynh_remove_nodejs
 
 #=================================================
