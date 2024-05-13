@@ -4,7 +4,8 @@ packaging_format = 2
 
 id = "fab-manager"
 name = "Fab-manager"
-description.en = "Fab Lab management solution."
+description.en = "Fab Lab management solution"
+description.fr = "Solution de gestion de Fab Lab"
 
 version = "6.3.9~ynh1"
 
@@ -23,6 +24,7 @@ architectures = "all"
 multi_instance = false
 
 ldap = false
+
 sso = false
 
 disk = "50M"

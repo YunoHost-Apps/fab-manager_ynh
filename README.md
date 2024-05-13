@@ -9,10 +9,10 @@ It shall NOT be edited by hand.
 
 [![Install Fab-manager with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=fab-manager)
 
-*[Read this README is other languages.](./ALL_README.md)*
+*[Read this README in other languages.](./ALL_README.md)*
 
-> *This package allows you to install Fab-manager quickly and simply on a YunoHost server.
-If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
+> *This package allows you to install Fab-manager quickly and simply on a YunoHost server.*  
+> *If you don't have YunoHost, please consult [the guide](https://yunohost.org/install) to learn how to install it.*
 
 ## Overview
 
@@ -36,10 +36,9 @@ Fab-manager is the Fab Lab management solution. It provides a comprehensive, web
 
 ## Developer info
 
-Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing),
+Please send your pull request to the [`testing` branch](https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing).
 
-
-To try the testing branch, please proceed like that.
+To try the `testing` branch, please proceed like that:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing --debug
