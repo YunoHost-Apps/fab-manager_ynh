@@ -5,7 +5,6 @@
 #=================================================
 
 source _common.sh
-source ynh_supervisor
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -65,11 +64,11 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
-ynh_add_config --template="../conf/secrets.yml" --destination="$install_dir/config/secrets.yml"
+ynh_add_config --template="secrets.yml" --destination="$install_dir/config/secrets.yml"
 chmod 400 "$install_dir/config/secrets.yml"
 chown "$app:$app" "$install_dir/config/secrets.yml"
 
-ynh_add_config --template="../conf/database.yml" --destination="$install_dir/config/database.yml"
+ynh_add_config --template="database.yml" --destination="$install_dir/config/database.yml"
 chmod 400 "$install_dir/config/database.yml"
 chown "$app:$app" "$install_dir/config/database.yml"
 
