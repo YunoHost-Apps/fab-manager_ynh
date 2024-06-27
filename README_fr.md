@@ -5,7 +5,7 @@ Il NE doit PAS être modifié à la main.
 
 # Fab-manager pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/fab-manager.svg)](https://dash.yunohost.org/appci/app/fab-manager) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/fab-manager.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/fab-manager.maintain.svg)
+[![Niveau d’intégration](https://dash.yunohost.org/integration/fab-manager.svg)](https://ci-apps.yunohost.org/ci/apps/fab-manager/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/fab-manager.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/fab-manager.maintain.svg)
 
 [![Installer Fab-manager avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=fab-manager)
 
