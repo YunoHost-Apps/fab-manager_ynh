@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # Fab-manager YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/fab-manager.svg)](https://dash.yunohost.org/appci/app/fab-manager) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/fab-manager.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/fab-manager.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/fab-manager.svg)](https://ci-apps.yunohost.org/ci/apps/fab-manager/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/fab-manager.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/fab-manager.maintain.svg)
 
 [![Instalatu Fab-manager YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=fab-manager)
 
