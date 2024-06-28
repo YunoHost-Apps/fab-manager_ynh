@@ -30,9 +30,7 @@ fabmanager_build_ruby() {
         ynh_use_ruby
         ynh_exec_warn_less ynh_exec_as "$app" $ynh_gem install bundler
         ynh_exec_warn_less ynh_exec_as "$app" bin/bundle config --global frozen 1
-        ynh_exec_warn_less ynh_exec_as "$app" bin/bundle config set --local without 'development test doc'
-        ynh_exec_warn_less ynh_exec_as "$app" bin/bundle install
-        ynh_exec_warn_less ynh_exec_as "$app" bin/bundle binstubs --all
+        ynh_exec_warn_less ynh_exec_as "$app" bin/bundle install --binstubs --without 'development test doc'
     popd
 }
 
