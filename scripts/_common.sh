@@ -25,12 +25,17 @@ fi
 # PERSONAL HELPERS
 #=================================================
 
+env_ruby() {
+    ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" "$@"
+}
+
+
 fabmanager_build_ruby() {
     pushd "$install_dir"
         ynh_use_ruby
         ynh_exec_warn_less $ynh_gem install bundler
-        ynh_exec_warn_less ynh_exec_as "$app" bin/bundle config --global frozen 1
-        ynh_exec_warn_less ynh_exec_as "$app" bin/bundle install --binstubs --without 'development test doc'
+        env_ruby bin/bundle config --global frozen 1
+        env_ruby bin/bundle install --binstubs --without 'development test doc'
     popd
 }
 
@@ -38,9 +43,9 @@ fabmanager_build_ui() {
     pushd "$install_dir"
         ynh_use_nodejs
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn install
-        #ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload yarn install
-        #ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload bin/webpack
-        ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload bin/bundle exec rails assets:precompile
+        #env_ruby yarn install
+        #env_ruby bin/webpack
+        env_ruby bin/bundle exec rails assets:precompile
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn cache clean --all
     popd
 }
@@ -48,15 +53,14 @@ fabmanager_build_ui() {
 fabmanager_seed_db() {
     pushd "$install_dir"
         ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
-        ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload \
-            bin/bundle exec rails db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
+        env_ruby bin/bundle exec rails db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
     popd
 }
 
 fabmanager_migrate_db() {
     pushd "$install_dir"
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH SUPERUSER;"
-        ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload bin/bundle exec rails db:migrate
+        env_ruby bin/bundle exec rails db:migrate
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
     popd
 }
