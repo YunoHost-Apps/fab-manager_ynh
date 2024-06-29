@@ -26,16 +26,22 @@ fi
 #=================================================
 
 env_ruby() {
-    ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" "$@"
+    ynh_exec_as "$app" "$ynh_ruby_load_path" env RAILS_ENV=production  "$@"
 }
 
 
 fabmanager_build_ruby() {
     pushd "$install_dir"
         ynh_use_ruby
-        ynh_exec_warn_less $ynh_gem install bundler
+        ynh_gem update --system --no-document
+        ynh_gem install bundler rake --no-document
+
         env_ruby bin/bundle config --global frozen 1
-        env_ruby bin/bundle install --binstubs --without 'development test doc'
+        env_ruby bin/bundle config set without 'development test doc'
+        env_ruby bin/bundle config set path 'vendor/bundle'
+        env_ruby bin/bundle install
+        env_ruby bin/bundle binstubs --all
+
     popd
 }
 
