@@ -26,7 +26,7 @@ fi
 #=================================================
 
 env_ruby() {
-    ynh_exec_as "$app" "$ynh_ruby_load_path" env "$@"
+    ynh_exec_as "$app" "$ynh_ruby_load_path" "$@"
 }
 
 
@@ -41,7 +41,6 @@ fabmanager_build_ruby() {
         env_ruby bin/bundle config set path 'vendor/bundle'
         env_ruby bin/bundle install
         env_ruby bin/bundle binstubs --all
-
     popd
 }
 
@@ -49,7 +48,10 @@ fabmanager_build_ui() {
     pushd "$install_dir"
         ynh_use_nodejs
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn install
-        env_ruby bash -c "source '$install_dir/.env' ; RAILS_ENV=production bin/bundle exec rake assets:precompile"
+        (
+            set -a; source "$install_dir/.env"; set +a  # Export all variables of .env
+            env_ruby RAILS_ENV=production bin/bundle exec rake assets:precompile
+        )
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn cache clean --all
     popd
 }
@@ -57,14 +59,20 @@ fabmanager_build_ui() {
 fabmanager_seed_db() {
     pushd "$install_dir"
         ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
-        env_ruby bin/bundle exec rails db:seed RAILS_ENV=production ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
+        (
+            set -a; source "$install_dir/.env"; set +a  # Export all variables of .env
+            env_ruby RAILS_ENV=production ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password" bin/bundle exec rails db:seed
+        )
     popd
 }
 
 fabmanager_migrate_db() {
     pushd "$install_dir"
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH SUPERUSER;"
-        env_ruby bin/bundle exec rails db:migrate RAILS_ENV=production
+        (
+            set -a; source "$install_dir/.env"; set +a  # Export all variables of .env
+            env_ruby RAILS_ENV=production bin/bundle exec rails db:migrate
+        )
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
     popd
 }
