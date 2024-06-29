@@ -33,8 +33,8 @@ env_ruby() {
 fabmanager_build_ruby() {
     pushd "$install_dir"
         ynh_use_ruby
-        ynh_gem update --system --no-document
-        ynh_gem install bundler rake --no-document
+        $ynh_gem update --system --no-document
+        $ynh_gem install bundler rake --no-document
 
         env_ruby bin/bundle config --global frozen 1
         env_ruby bin/bundle config set without 'development test doc'
