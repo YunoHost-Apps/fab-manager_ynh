@@ -76,6 +76,7 @@ ynh_add_nginx_config
 # Create a dedicated systemd config
 ynh_add_systemd_config --service="$app-app" --template="fab-manager-app.service"
 yunohost service add "$app-app" --description="$app app service"
+
 ynh_add_systemd_config --service="$app-worker" --template="fab-manager-worker.service"
 yunohost service add "$app-worker" --description="$app worker service"
 

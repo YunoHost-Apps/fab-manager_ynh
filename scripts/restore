@@ -46,9 +46,8 @@ ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH S
 ynh_psql_execute_as_root --database="$db_name" --sql="CREATE EXTENSION IF NOT EXISTS unaccent;"
 ynh_psql_execute_as_root --database="$db_name" --sql="CREATE EXTENSION IF NOT EXISTS pg_trgm;"
 ynh_psql_execute_as_root --database="$db_name" --sql="CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;"
-ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
-
 ynh_psql_connect_as --user="$db_user" --password="$db_pwd" --database="$db_name" < ./db.sql
+ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # BUILD APP
@@ -66,9 +65,11 @@ ynh_script_progression --message="Restoring system configurations related to $ap
 ynh_restore_file --origin_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_restore_file --origin_path="/etc/systemd/system/$app-app.service"
-ynh_restore_file --origin_path="/etc/systemd/system/$app-worker.service"
-systemctl enable "$app-app" "$app-worker" --quiet
+systemctl enable "$app-app" --quiet
 yunohost service add "$app-app" --description="$app app service"
+
+ynh_restore_file --origin_path="/etc/systemd/system/$app-worker.service"
+systemctl enable "$app-worker" --quiet
 yunohost service add "$app-worker" --description="$app worker service"
 
 #=================================================
