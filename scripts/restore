@@ -56,7 +56,6 @@ ynh_psql_connect_as --user="$db_user" --password="$db_pwd" --database="$db_name"
 ynh_script_progression --message="Building app..." --weight=7
 
 fabmanager_build_ruby
-
 fabmanager_build_ui
 
 #=================================================
