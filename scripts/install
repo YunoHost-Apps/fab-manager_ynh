@@ -16,6 +16,8 @@ admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
 secret_key_base=$(ynh_string_random --length=30)
 ynh_app_setting_set --app="$app" --key="secret_key_base" --value="$secret_key_base"
 
+check_password_policy "$password"
+
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
