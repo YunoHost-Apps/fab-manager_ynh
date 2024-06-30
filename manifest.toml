@@ -7,7 +7,7 @@ name = "Fab-manager"
 description.en = "Fab Lab management solution"
 description.fr = "Solution de gestion de Fab Lab"
 
-version = "6.3.27~ynh1"
+version = "6.3.27~ynh2"
 
 maintainers = []
 
