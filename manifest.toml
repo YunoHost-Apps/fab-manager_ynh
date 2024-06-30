@@ -7,7 +7,7 @@ name = "Fab-manager"
 description.en = "Fab Lab management solution"
 description.fr = "Solution de gestion de Fab Lab"
 
-version = "5.6.5~ynh2"
+version = "6.3.27~ynh1"
 
 maintainers = []
 
@@ -22,8 +22,10 @@ code = "https://github.com/sleede/fab-manager"
 yunohost = ">= 11.2.12"
 architectures = "all"
 multi_instance = false
+
 ldap = false
 sso = false
+
 disk = "50M"
 ram.build = "50M"
 ram.runtime = "50M"
@@ -46,8 +48,8 @@ ram.runtime = "50M"
 
 [resources]
     [resources.sources.main]
-    url = "https://api.github.com/repos/sleede/fab-manager/tarball/v5.6.5"
-    sha256 = "dc6ae9fefd893975ee2b70c5b327a37b3d585dcf223ddffe75cc0b570771102d"
+    url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.3.27.tar.gz"
+    sha256 = "c2ae66d2aa47e16b4664f235908acfb0ac5b67f5f1390baf0f83c85662724421"
 
     autoupdate.strategy = "latest_github_tag"
 
@@ -83,6 +85,8 @@ ram.runtime = "50M"
         # For Ruby
 
         "libjemalloc-dev",
+        "libffi-dev",
+        "libyaml-dev",
         "curl",
         "build-essential",
         "libreadline-dev",

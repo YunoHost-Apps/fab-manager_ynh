@@ -82,10 +82,9 @@ ynh_secure_remove --file="$install_dir/node_modules"
 ynh_secure_remove --file="$install_dir/tmp/cache"
 
 fabmanager_build_ruby
+fabmanager_build_ui
 
 fabmanager_migrate_db
-
-fabmanager_build_ui
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
