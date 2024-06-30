@@ -75,8 +75,8 @@ ynh_script_progression --message="Building app..." --weight=7
 fabmanager_build_ruby
 fabmanager_build_ui
 
-fabmanager_migrate_db
 fabmanager_seed_db
+# fabmanager_migrate_db
 
 ynh_secure_remove --file="$install_dir/.cache"
 
