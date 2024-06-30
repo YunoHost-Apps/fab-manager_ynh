@@ -48,10 +48,7 @@ fabmanager_build_ui() {
     pushd "$install_dir"
         ynh_use_nodejs
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn install
-        (
-            set -a; source "$install_dir/.env"; set +a  # Export all variables of .env
-            env_ruby RAILS_ENV=production bin/bundle exec rake assets:precompile
-        )
+        env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production bin/bundle exec rake assets:precompile"
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn cache clean --all
     popd
 }
@@ -59,20 +56,14 @@ fabmanager_build_ui() {
 fabmanager_seed_db() {
     pushd "$install_dir"
         ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
-        (
-            set -a; source "$install_dir/.env"; set +a  # Export all variables of .env
-            env_ruby RAILS_ENV=production ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password" bin/bundle exec rails db:seed
-        )
+        env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:seed"
     popd
 }
 
 fabmanager_migrate_db() {
     pushd "$install_dir"
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH SUPERUSER;"
-        (
-            set -a; source "$install_dir/.env"; set +a  # Export all variables of .env
-            env_ruby RAILS_ENV=production bin/bundle exec rails db:migrate
-        )
+        env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production bin/bundle exec rails db:migrate"
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
     popd
 }
