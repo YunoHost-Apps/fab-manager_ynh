@@ -25,6 +25,28 @@ fi
 # PERSONAL HELPERS
 #=================================================
 
+check_password_policy() {
+    password="$1"
+    # 12 caractères minimum, au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial
+
+    msg=""
+    if (( ${#password} < 10 )); then
+        msg="is too short"
+    elif [[ $password != *[[:digit:]]* ]]; then
+        msg="does not contain any digit"
+    elif [[ $password != *[[:lower:]]* ]]; then
+        msg="does not contain any lower case letter"
+    elif [[ $password != *[[:upper:]]* ]]; then
+        msg="does not contain any upper case letter"
+    elif [[ "$password" =~ ^[0-9a-zA-Z]*$ ]]; then
+        msg="does not contain any special character"
+    fi
+
+    if [ -n "$msg" ]; then
+        ynh_die "Password should have min 12 chars, at least one lowercase, one uppercase, one digit and one special character, but it $msg."
+    fi
+}
+
 env_ruby() {
     ynh_exec_as "$app" "$ynh_ruby_load_path" "$@"
 }
