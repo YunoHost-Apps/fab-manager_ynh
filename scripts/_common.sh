@@ -56,7 +56,10 @@ fabmanager_build_ui() {
 fabmanager_seed_db() {
     pushd "$install_dir"
         ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
+        # Need superuser for the extensions configuration…
+        ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH SUPERUSER;"
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:schema:load"
+        ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:seed"
     popd
 }
