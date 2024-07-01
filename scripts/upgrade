@@ -54,7 +54,13 @@ ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
 ynh_script_progression --message="Upgrading source files..." --weight=1
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep=".env config/database.yml"
+to_keep=(
+    # Basically inspired from the docker-compose.yml
+    .env config/database.yml config/auth_provider.yml public/packs public/uploads
+    invoices payment_schedules exports imports supporting_document_files plugins accounting
+)
+
+ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="${to_keep[*]}"
 
 chmod -R o-rwx "$install_dir"
 chown -R "$app:www-data" "$install_dir"
