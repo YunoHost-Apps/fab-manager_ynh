@@ -54,7 +54,13 @@ ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
 ynh_script_progression --message="Upgrading source files..." --weight=1
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="config/secrets.yml config/database.yml"
+to_keep=(
+    # Basically inspired from the docker-compose.yml
+    .env config/database.yml config/auth_provider.yml public/packs public/uploads
+    invoices payment_schedules exports imports supporting_document_files plugins accounting
+)
+
+ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="${to_keep[*]}"
 
 chmod -R o-rwx "$install_dir"
 chown -R "$app:www-data" "$install_dir"
@@ -64,9 +70,9 @@ chown -R "$app:www-data" "$install_dir"
 #=================================================
 ynh_script_progression --message="Updating a configuration file..." --weight=1
 
-ynh_add_config --template="secrets.yml" --destination="$install_dir/config/secrets.yml"
-chmod 400 "$install_dir/config/secrets.yml"
-chown "$app:$app" "$install_dir/config/secrets.yml"
+ynh_add_config --template="dot_env" --destination="$install_dir/.env"
+chmod 400 "$install_dir/.env"
+chown "$app:$app" "$install_dir/.env"
 
 ynh_add_config --template="database.yml" --destination="$install_dir/config/database.yml"
 chmod 400 "$install_dir/config/database.yml"
@@ -82,10 +88,9 @@ ynh_secure_remove --file="$install_dir/node_modules"
 ynh_secure_remove --file="$install_dir/tmp/cache"
 
 fabmanager_build_ruby
+fabmanager_build_ui
 
 fabmanager_migrate_db
-
-fabmanager_build_ui
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
@@ -97,8 +102,9 @@ ynh_add_nginx_config
 
 # Create a dedicated systemd config
 ynh_add_systemd_config --service="$app-app" --template="fab-manager-app.service"
-ynh_add_systemd_config --service="$app-worker" --template="fab-manager-worker.service"
 yunohost service add "$app-app" --description="$app app service"
+
+ynh_add_systemd_config --service="$app-worker" --template="fab-manager-worker.service"
 yunohost service add "$app-worker" --description="$app worker service"
 
 #=================================================
