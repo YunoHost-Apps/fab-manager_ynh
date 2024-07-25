@@ -1,0 +1,76 @@
+# Add application configuration variables here, as shown below.
+# This file is read by dotenv
+
+# Databases
+POSTGRES_HOST=localhost
+POSTGRES_PASSWORD=__DB_PWD__
+REDIS_HOST=localhost
+ELASTICSEARCH_HOST=localhost
+
+SECRET_KEY_BASE=__SECRET_KEY_BASE__
+
+# Stripe keys for tests
+STRIPE_API_KEY=
+STRIPE_PUBLISHABLE_KEY=
+
+# oAuth SSO keys for tests
+OAUTH_CLIENT_ID=github-oauth-app-id
+OAUTH_CLIENT_SECRET=github-oauth-app-secret
+OIDC_CLIENT_ID=oidc-client-id
+OIDC_CLIENT_SECRET=oidc-client-secret
+
+# Configure carefully!
+DEFAULT_HOST=__DOMAIN__
+DEFAULT_PROTOCOL=https
+
+# Email config
+DELIVERY_METHOD=smtp
+SMTP_ADDRESS=localhost
+SMTP_PORT=25
+SMTP_USER_NAME=__APP__
+SMTP_PASSWORD=__MAIL_PWD__
+SMTP_AUTHENTICATION=plain
+SMTP_ENABLE_STARTTLS_AUTO=false
+SMTP_OPENSSL_VERIFY_MODE=
+SMTP_TLS=false
+
+# I18N configuration
+RAILS_LOCALE=fr
+APP_LOCALE=fr
+MOMENT_LOCALE=fr
+SUMMERNOTE_LOCALE=fr-FR
+ANGULAR_LOCALE=fr-fr
+FULLCALENDAR_LOCALE=fr
+INTL_LOCALE=fr-FR
+INTL_CURRENCY=EUR
+FORCE_VERSION_CHECK=false
+ALLOW_INSECURE_HTTP=false
+
+POSTGRESQL_LANGUAGE_ANALYZER=french
+
+TIME_ZONE=Paris
+WEEK_STARTING_DAY=monday
+D3_DATE_FORMAT=%d/%m/%y
+UIB_DATE_FORMAT=dd/MM/yyyy
+EXCEL_DATE_FORMAT=dd/mm/yyyy
+
+# OpenLab Projects
+# do not change this URL
+OPENLAB_BASE_URI=https://openprojects.fab-manager.com
+OPENLAB_SSL_VERIFY=true
+
+# System settings
+LOG_LEVEL=debug
+RAILS_LOG_TO_STDOUT=true
+DISK_SPACE_MB_ALERT=1024
+ADMINSYS_EMAIL=__ADMIN_MAIL__
+ENABLE_SENTRY=false
+
+# 5242880 = 5 megabytes
+MAX_IMPORT_SIZE=5242880
+# 10485760 = 10 megabytes
+MAX_IMAGE_SIZE=10485760
+# 20971520 = 20 megabytes
+MAX_CAO_SIZE=20971520
+# 5242880 = 5 megabytes
+MAX_SUPPORTING_DOCUMENT_FILE_SIZE=5242880
