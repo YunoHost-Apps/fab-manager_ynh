@@ -11,10 +11,10 @@ source /usr/share/yunohost/helpers
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Reinstalling NodeJS..." --weight=1
+ynh_script_progression --message="Reinstalling NodeJS and Ruby..." --weight=1
+
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version="$nodejs_version"
 
-ynh_script_progression --message="Reinstalling Ruby..." --weight=4
 ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
 
 #=================================================

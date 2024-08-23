@@ -19,7 +19,7 @@ admindoc = "http://doc.fab.mn"
 code = "https://github.com/sleede/fab-manager"
 
 [integration]
-yunohost = ">= 11.2.12"
+yunohost = ">= 11.2.27"
 architectures = "all"
 multi_instance = false
 
