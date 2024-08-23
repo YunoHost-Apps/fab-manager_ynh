@@ -31,7 +31,7 @@ Fab-manager is the Fab Lab management solution. It provides a comprehensive, web
 
 - Website aplikasi resmi: <https://www.fab-manager.com>
 - Dokumentasi admin resmi: <http://doc.fab.mn>
-- Repositori kode aplikasi hulu: <https://github.com/sleede/fab-manager>
+- Depot kode aplikasi hulu: <https://github.com/sleede/fab-manager>
 - Gudang YunoHost: <https://apps.yunohost.org/app/fab-manager>
 - Laporkan bug: <https://github.com/YunoHost-Apps/fab-manager_ynh/issues>
 
