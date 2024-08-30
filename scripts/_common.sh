@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #=================================================
-# COMMON VARIABLES
+# COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
 
 ruby_version="2.6.10"
@@ -23,53 +23,40 @@ else
     ld_preload=""
 fi
 
-#=================================================
-# PERSONAL HELPERS
-#=================================================
-
 fabmanager_build_ruby() {
     pushd "$install_dir"
-        ynh_use_ruby
-        ynh_exec_warn_less $ynh_gem install "bundler:$bundler_version"
-        ynh_exec_warn_less bin/bundle config --global frozen 1
-        ynh_exec_warn_less bin/bundle config set --local without 'development test doc'
-        ynh_exec_warn_less bin/bundle install
-        ynh_exec_warn_less bin/bundle binstubs --all
+
+        ynh_hide_warnings gem install "bundler:$bundler_version"
+        ynh_hide_warnings bin/bundle config --global frozen 1
+        ynh_hide_warnings bin/bundle config set --local without 'development test doc'
+        ynh_hide_warnings bin/bundle install
+        ynh_hide_warnings bin/bundle binstubs --all
     popd
 }
 
 fabmanager_seed_db() {
     pushd "$install_dir"
-        ynh_replace_string --match_string="DateTime.current" --replace_string="DateTime.current - 1.days" --target_file="$install_dir/db/seeds.rb"
-        ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload \
+        ynh_replace --match="DateTime.current" --replace="DateTime.current - 1.days" --file="$install_dir/db/seeds.rb"
+        ynh_hide_warnings ynh_exec_as_app RAILS_ENV=production ruby_load_path" $ld_preload \
             bin/bundle exec rake db:seed ADMIN_EMAIL="$admin_mail" ADMIN_PASSWORD="$password"
     popd
 }
 
 fabmanager_migrate_db() {
     pushd "$install_dir"
-        ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH SUPERUSER;"
-        ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload bin/bundle exec rake db:migrate
-        ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
+        ynh_psql_db_shell  <<< "ALTER USER $db_user WITH SUPERUSER;"
+        ynh_hide_warnings ynh_exec_as_app RAILS_ENV=production ruby_load_path" $ld_preload bin/bundle exec rake db:migrate
+        ynh_psql_db_shell  <<< "ALTER USER $db_user WITH NOSUPERUSER;"
     popd
 }
 
 fabmanager_build_ui() {
     pushd "$install_dir"
-        ynh_use_nodejs
-        ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn install
-        #ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload yarn install
-        #ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload bin/webpack
-        ynh_exec_warn_less ynh_exec_as "$app" env RAILS_ENV=production "$ynh_ruby_load_path" $ld_preload bin/bundle exec rake assets:precompile
-        ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn cache clean --all
+
+        ynh_hide_warnings ynh_exec_as_app node_load_PATH" yarn install
+        #ynh_hide_warnings ynh_exec_as_app RAILS_ENV=production ruby_load_path" $ld_preload yarn install
+        #ynh_hide_warnings ynh_exec_as_app RAILS_ENV=production ruby_load_path" $ld_preload bin/webpack
+        ynh_hide_warnings ynh_exec_as_app RAILS_ENV=production ruby_load_path" $ld_preload bin/bundle exec rake assets:precompile
+        ynh_hide_warnings ynh_exec_as_app node_load_PATH" yarn cache clean --all
     popd
 }
-
-
-#=================================================
-# EXPERIMENTAL HELPERS
-#=================================================
-
-#=================================================
-# FUTURE OFFICIAL HELPERS
-#=================================================
