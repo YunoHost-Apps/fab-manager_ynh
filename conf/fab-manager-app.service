@@ -7,7 +7,7 @@ Type=simple
 User=__APP__
 WorkingDirectory=__INSTALL_DIR__
 Environment="__LD_PRELOAD__"
-Environment="__YNH_RUBY_LOAD_PATH__"
+Environment="PATH=__PATH_WITH_RUBY__"
 Environment="RAILS_ENV=production"
 ExecStartPre=-rm -f __INSTALL_DIR__/tmp/pids/server.pid
 ExecStart=__INSTALL_DIR__/bin/bundle exec rails s puma -p __PORT__ -b 127.0.0.1
