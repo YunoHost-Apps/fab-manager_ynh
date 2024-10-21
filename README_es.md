@@ -19,7 +19,7 @@ No se debe editar a mano.
 Fab-manager is the Fab Lab management solution. It provides a comprehensive, web-based, open-source tool to simplify your administrative tasks, and document your marker's projects.
 
 
-**Versión actual:** 6.3.31~ynh1
+**Versión actual:** 6.3.34~ynh1
 
 **Demo:** <https://www.fab-manager.com/fr/demo>
 
@@ -37,7 +37,7 @@ Fab-manager is the Fab Lab management solution. It provides a comprehensive, web
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
