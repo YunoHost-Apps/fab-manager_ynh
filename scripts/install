@@ -16,6 +16,8 @@ admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
 secret_key_base=$(ynh_string_random --length=30)
 ynh_app_setting_set --app="$app" --key="secret_key_base" --value="$secret_key_base"
 
+check_password_policy "$password"
+
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
@@ -24,17 +26,6 @@ ynh_exec_warn_less ynh_install_nodejs --nodejs_version="$nodejs_version"
 
 ynh_script_progression --message="Installing Ruby..." --weight=4
 ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
-
-#=================================================
-# CREATE A POSTGRESQL DATABASE
-#=================================================
-ynh_script_progression --message="Configuring $app's PostgreSQL database..." --weight=1
-
-ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH SUPERUSER;"
-ynh_psql_execute_as_root --database="$db_name" --sql="CREATE EXTENSION IF NOT EXISTS unaccent;"
-ynh_psql_execute_as_root --database="$db_name" --sql="CREATE EXTENSION IF NOT EXISTS pg_trgm;"
-ynh_psql_execute_as_root --database="$db_name" --sql="CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;"
-ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -55,9 +46,9 @@ chown -R "$app:www-data" "$data_dir"
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
 
-ynh_add_config --template="secrets.yml" --destination="$install_dir/config/secrets.yml"
-chmod 400 "$install_dir/config/secrets.yml"
-chown "$app:$app" "$install_dir/config/secrets.yml"
+ynh_add_config --template="dot_env" --destination="$install_dir/.env"
+chmod 400 "$install_dir/.env"
+chown "$app:$app" "$install_dir/.env"
 
 ynh_add_config --template="database.yml" --destination="$install_dir/config/database.yml"
 chmod 400 "$install_dir/config/database.yml"
@@ -69,11 +60,8 @@ chown "$app:$app" "$install_dir/config/database.yml"
 ynh_script_progression --message="Building app..." --weight=7
 
 fabmanager_build_ruby
-
-fabmanager_migrate_db
-fabmanager_seed_db
-
 fabmanager_build_ui
+fabmanager_seed_db
 
 ynh_secure_remove --file="$install_dir/.cache"
 
@@ -88,6 +76,7 @@ ynh_add_nginx_config
 # Create a dedicated systemd config
 ynh_add_systemd_config --service="$app-app" --template="fab-manager-app.service"
 yunohost service add "$app-app" --description="$app app service"
+
 ynh_add_systemd_config --service="$app-worker" --template="fab-manager-worker.service"
 yunohost service add "$app-worker" --description="$app worker service"
 
