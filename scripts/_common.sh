@@ -83,6 +83,8 @@ fabmanager_seed_db() {
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:schema:load"
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:seed"
+        # Create the first admin user with confirmed email
+        env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password bin/tootctl accounts modify "$admin" --email="$admin_mail" --confirmed --role=Owner'
     popd
 }
 
