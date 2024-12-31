@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -12,7 +8,6 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression --message="Removing system configurations related to $app..." --weight=1
 
-# Remove the service from the list of services known by YunoHost (added from `yunohost service add`)
 if ynh_exec_warn_less yunohost service status "$app-app" >/dev/null; then
     yunohost service remove "$app-app"
 fi
@@ -20,11 +15,9 @@ if ynh_exec_warn_less yunohost service status "$app-worker" >/dev/null; then
     yunohost service remove "$app-worker"
 fi
 
-# Remove the dedicated systemd config
 ynh_remove_systemd_config --service="$app-app"
 ynh_remove_systemd_config --service="$app-worker"
 
-# Remove the dedicated NGINX config
 ynh_remove_nginx_config
 
 ynh_remove_ruby

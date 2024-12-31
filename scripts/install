@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -21,10 +17,10 @@ check_password_policy "$password"
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Installing NodeJS..." --weight=1
+ynh_script_progression --message="Installing dependencies..." --weight=1
+
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version="$nodejs_version"
 
-ynh_script_progression --message="Installing Ruby..." --weight=4
 ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
 
 #=================================================
@@ -32,7 +28,6 @@ ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
 #=================================================
 ynh_script_progression --message="Setting up source files..." --weight=1
 
-# Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir"
 
 chmod -R o-rwx "$install_dir"
@@ -70,10 +65,8 @@ ynh_secure_remove --file="$install_dir/.cache"
 #=================================================
 ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
 
-# Create a dedicated NGINX config
 ynh_add_nginx_config
 
-# Create a dedicated systemd config
 ynh_add_systemd_config --service="$app-app" --template="fab-manager-app.service"
 yunohost service add "$app-app" --description="$app app service"
 
