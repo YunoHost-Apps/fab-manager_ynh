@@ -8,6 +8,8 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
+mail_user=$(ynh_app_setting_get --app="$app" --key="mail_user")
+mail_domain=$(ynh_app_setting_get --app="$app" --key="mail_domain")
 
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -34,6 +36,11 @@ ynh_secure_remove --file="/var/log/supervisor/$app-app-stderr.log"
 ynh_secure_remove --file="/var/log/supervisor/$app-app-stdout.log"
 ynh_secure_remove --file="/var/log/supervisor/$app-worker-stderr.log"
 ynh_secure_remove --file="/var/log/supervisor/$app-worker-stdout.log"
+
+if [ -z "$mail_user" || -z "$mail_domain" ]; then
+    mail_user=$(ynh_app_setting_set --app="$app" --key="mail_user" --value="$app")
+    mail_domain=$(ynh_app_setting_set --app="$app" --key="mail_domain" --value="$domain")
+fi
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -87,6 +94,7 @@ fabmanager_build_ruby
 fabmanager_build_ui
 
 fabmanager_migrate_db
+fabmanager_configure_email
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS

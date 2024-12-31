@@ -83,6 +83,7 @@ fabmanager_seed_db() {
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:schema:load"
         ynh_psql_execute_as_root --database="$db_name" --sql="ALTER USER $db_user WITH NOSUPERUSER;"
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:seed"
+
     popd
 }
 
@@ -94,6 +95,9 @@ fabmanager_migrate_db() {
     popd
 }
 
+fabmanager_configure_email() {
+    ynh_psql_execute_as_root --database="$db_name" --sql="INSERT INTO history_values (setting_id,value, created_at,updated_at) VALUES ((select id from settings where name='email_from'), '${mail_user}@${mail_domain}', NOW(),NOW());"
+}
 
 #=================================================
 # EXPERIMENTAL HELPERS

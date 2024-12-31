@@ -11,6 +11,10 @@ admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
 
 secret_key_base=$(ynh_string_random --length=30)
 ynh_app_setting_set --app="$app" --key="secret_key_base" --value="$secret_key_base"
+mail_user=$app
+mail_domain=$domain
+ynh_app_setting_set --app="$app" --key="mail_user" --value="$mail_user"
+ynh_app_setting_set --app="$app" --key="mail_domain" --value="$mail_domain"
 
 check_password_policy "$password"
 
@@ -57,6 +61,7 @@ ynh_script_progression --message="Building app..." --weight=7
 fabmanager_build_ruby
 fabmanager_build_ui
 fabmanager_seed_db
+fabmanager_configure_email
 
 ynh_secure_remove --file="$install_dir/.cache"
 
