@@ -7,7 +7,7 @@ name = "Fab-manager"
 description.en = "Fab Lab management solution"
 description.fr = "Solution de gestion de Fab Lab"
 
-version = "6.3.36~ynh1"
+version = "6.3.37~ynh1"
 
 maintainers = []
 
@@ -48,8 +48,8 @@ ram.runtime = "50M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.3.36.tar.gz"
-    sha256 = "c70cae2b0d127c32b32406d50a5c362129eea264817786c844c0e75a37854f07"
+    url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.3.37.tar.gz"
+    sha256 = "355df9c7d6db0c95da2bb49880ef227a62e4148bfbe915af81f1618b33c84bd4"
 
     autoupdate.strategy = "latest_github_tag"
 
