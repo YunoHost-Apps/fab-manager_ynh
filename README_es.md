@@ -3,7 +3,7 @@ Este archivo README esta generado automaticamente<https://github.com/YunoHost/ap
 No se debe editar a mano.
 -->
 
-# Fab-manager para Yunohost
+# Fab-manager para YunoHost
 
 [![Nivel de integración](https://apps.yunohost.org/badge/integration/fab-manager)](https://ci-apps.yunohost.org/ci/apps/fab-manager/)
 ![Estado funcional](https://apps.yunohost.org/badge/state/fab-manager)
@@ -21,7 +21,7 @@ No se debe editar a mano.
 Fab-manager is the Fab Lab management solution. It provides a comprehensive, web-based, open-source tool to simplify your administrative tasks, and document your marker's projects.
 
 
-**Versión actual:** 6.3.44~ynh1
+**Versión actual:** 6.3.46~ynh1
 
 **Demo:** <https://www.fab-manager.com/fr/demo>
 

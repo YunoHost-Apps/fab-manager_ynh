@@ -21,7 +21,7 @@ EZ editatu eskuz.
 Fab-manager is the Fab Lab management solution. It provides a comprehensive, web-based, open-source tool to simplify your administrative tasks, and document your marker's projects.
 
 
-**Paketatutako bertsioa:** 6.3.44~ynh1
+**Paketatutako bertsioa:** 6.3.46~ynh1
 
 **Demoa:** <https://www.fab-manager.com/fr/demo>
 
@@ -41,7 +41,7 @@ Fab-manager is the Fab Lab management solution. It provides a comprehensive, web
 
 Bidali `pull request`a [`testing` abarrera](https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing).
 
-`testing` abarra probatzeko, ondorengoa egin:
+`testing` abarra probatzeko, honakoa egin:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/fab-manager_ynh/tree/testing --debug
