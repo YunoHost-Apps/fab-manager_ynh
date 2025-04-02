@@ -21,7 +21,7 @@ NO s'ha de modificar manualment.
 Fab-manager is the Fab Lab management solution. It provides a comprehensive, web-based, open-source tool to simplify your administrative tasks, and document your marker's projects.
 
 
-**Versió inclosa:** 6.3.46~ynh1
+**Versió inclosa:** 6.3.47~ynh1
 
 **Demo:** <https://www.fab-manager.com/fr/demo>
 
