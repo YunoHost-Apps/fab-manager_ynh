@@ -19,7 +19,7 @@ admindoc = "http://doc.fab.mn"
 code = "https://github.com/sleede/fab-manager"
 
 [integration]
-yunohost = ">= 11.2.27"
+yunohost = ">= 12.1.17"
 architectures = "all"
 multi_instance = false
 
@@ -108,3 +108,9 @@ ram.runtime = "50M"
 
     [resources.database]
     type = "postgresql"
+
+    [resources.nodejs]
+    version = "18"
+
+    [resources.ruby]
+    version = "3.2.2"

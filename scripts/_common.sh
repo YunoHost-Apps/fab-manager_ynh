@@ -4,8 +4,8 @@
 # COMMON VARIABLES
 #=================================================
 
-ruby_version="3.2.2"
-nodejs_version="18"
+#REMOVEME? ruby_version="3.2.2"
+#REMOVEME? nodejs_version="18"
 
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463
@@ -48,13 +48,13 @@ check_password_policy() {
 }
 
 env_ruby() {
-    ynh_exec_as "$app" "$ynh_ruby_load_path" "$@"
+    ynh_exec_as "$app" "$#REMOVEME? ynh_ruby_load_path" "$@"
 }
 
 
 fabmanager_build_ruby() {
     pushd "$install_dir"
-        ynh_use_ruby
+        #REMOVEME? ynh_use_ruby
         $ynh_gem update --system --no-document
         $ynh_gem install bundler rake --no-document
 
@@ -68,7 +68,7 @@ fabmanager_build_ruby() {
 
 fabmanager_build_ui() {
     pushd "$install_dir"
-        ynh_use_nodejs
+        #REMOVEME? ynh_use_nodejs
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn install
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production bin/bundle exec rake assets:precompile"
         ynh_exec_warn_less ynh_exec_as "$app" env "$ynh_node_load_PATH" yarn cache clean --all
