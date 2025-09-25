@@ -41,14 +41,13 @@ check_password_policy() {
 }
 
 env_ruby() {
-    ynh_exec_as_app "$#REMOVEME? ruby_load_path" "$@"
+    ynh_exec_as_app "$ruby_load_path" "$@"
 }
 
 fabmanager_build_ruby() {
     pushd "$install_dir"
         gem update --system --no-document
         gem install bundler rake --no-document
-
         env_ruby bin/bundle config --global frozen 1
         env_ruby bin/bundle config set without 'development test doc'
         env_ruby bin/bundle config set path 'vendor/bundle'
@@ -69,9 +68,9 @@ fabmanager_seed_db() {
     pushd "$install_dir"
         ynh_replace --match="DateTime.current" --replace="DateTime.current - 1.days" --file="$install_dir/db/seeds.rb"
         # Need superuser for the extensions configuration…
-        ynh_psql_db_shell  <<< "ALTER USER $db_user WITH SUPERUSER;"
+        ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:schema:load"
-        ynh_psql_db_shell  <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+        ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production ADMIN_EMAIL='$admin_mail' ADMIN_PASSWORD='$password' bin/bundle exec rails db:seed"
 
     popd
