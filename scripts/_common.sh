@@ -59,9 +59,9 @@ fabmanager_build_ruby() {
 
 fabmanager_build_ui() {
     pushd "$install_dir"
-        ynh_hide_warnings ynh_exec_as_app node_load_PATH" yarn install
+        ynh_hide_warnings ynh_exec_as_app yarn install
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production bin/bundle exec rake assets:precompile"
-        ynh_hide_warnings ynh_exec_as_app node_load_PATH" yarn cache clean --all
+        ynh_hide_warnings ynh_exec_as_app yarn cache clean --all
     popd
 }
 
@@ -79,12 +79,12 @@ fabmanager_seed_db() {
 
 fabmanager_migrate_db() {
     pushd "$install_dir"
-        ynh_psql_db_shell  <<< "ALTER USER $db_user WITH SUPERUSER;"
+        ynh_psql_db_shell <<< "ALTER USER $db_user WITH SUPERUSER;"
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production bin/bundle exec rails db:migrate"
-        ynh_psql_db_shell  <<< "ALTER USER $db_user WITH NOSUPERUSER;"
+        ynh_psql_db_shell <<< "ALTER USER $db_user WITH NOSUPERUSER;"
     popd
 }
 
 fabmanager_configure_email() {
-    ynh_psql_db_shell  <<< "INSERT INTO history_values (setting_id,value, created_at,updated_at) VALUES ((select id from settings where name='email_from'), '${mail_user}@${mail_domain}', NOW(),NOW());"
+    ynh_psql_db_shell <<< "INSERT INTO history_values (setting_id,value, created_at,updated_at) VALUES ((select id from settings where name='email_from'), '${mail_user}@${mail_domain}', NOW(),NOW());"
 }
