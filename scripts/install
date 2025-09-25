@@ -36,12 +36,8 @@ chown -R "$app:www-data" "$data_dir"
 ynh_script_progression "Adding $app's configuration..."
 
 ynh_config_add --template="dot_env" --destination="$install_dir/.env"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/.env"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "$install_dir/.env"
 
 ynh_config_add --template="database.yml" --destination="$install_dir/config/database.yml"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/config/database.yml"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "$install_dir/config/database.yml"
 
 #=================================================
 # BUILD APP

@@ -59,8 +59,6 @@ fabmanager_build_ruby() {
 
 fabmanager_build_ui() {
     pushd "$install_dir"
-        #REMOVEME?
-
         ynh_hide_warnings ynh_exec_as_app node_load_PATH" yarn install
         env_ruby bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production bin/bundle exec rake assets:precompile"
         ynh_hide_warnings ynh_exec_as_app node_load_PATH" yarn cache clean --all
