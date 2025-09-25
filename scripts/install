@@ -23,9 +23,9 @@ check_password_policy "$password"
 #=================================================
 ynh_script_progression --message="Installing dependencies..." --weight=1
 
-ynh_exec_warn_less ynh_install_nodejs --nodejs_version="$nodejs_version"
+#REMOVEME? ynh_exec_warn_less #REMOVEME? ynh_install_nodejs --#REMOVEME? nodejs_version="$nodejs_version"
 
-ynh_exec_warn_less ynh_install_ruby --ruby_version="$ruby_version"
+#REMOVEME? ynh_exec_warn_less #REMOVEME? ynh_install_ruby --#REMOVEME? ruby_version="$ruby_version"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE

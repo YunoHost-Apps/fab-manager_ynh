@@ -20,9 +20,9 @@ ynh_remove_systemd_config --service="$app-worker"
 
 ynh_remove_nginx_config
 
-ynh_remove_ruby
+#REMOVEME? ynh_remove_ruby
 
-ynh_remove_nodejs
+#REMOVEME? ynh_remove_nodejs
 
 #=================================================
 # END OF SCRIPT
