@@ -4,9 +4,6 @@
 # COMMON VARIABLES
 #=================================================
 
-#REMOVEME? ruby_version="3.2.2"
-#REMOVEME? nodejs_version="18"
-
 # Workaround for Mastodon on Bullseye
 # See https://github.com/mastodon/mastodon/issues/15751#issuecomment-873594463
 if [ "$(lsb_release --codename --short)" = "bullseye" ]; then
@@ -51,10 +48,8 @@ env_ruby() {
     ynh_exec_as "$app" "$#REMOVEME? ynh_ruby_load_path" "$@"
 }
 
-
 fabmanager_build_ruby() {
     pushd "$install_dir"
-        #REMOVEME? ynh_use_ruby
         $ynh_gem update --system --no-document
         $ynh_gem install bundler rake --no-document
 
@@ -98,11 +93,3 @@ fabmanager_migrate_db() {
 fabmanager_configure_email() {
     ynh_psql_execute_as_root --database="$db_name" --sql="INSERT INTO history_values (setting_id,value, created_at,updated_at) VALUES ((select id from settings where name='email_from'), '${mail_user}@${mail_domain}', NOW(),NOW());"
 }
-
-#=================================================
-# EXPERIMENTAL HELPERS
-#=================================================
-
-#=================================================
-# FUTURE OFFICIAL HELPERS
-#=================================================

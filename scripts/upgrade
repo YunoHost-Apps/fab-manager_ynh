@@ -43,15 +43,6 @@ if [ -z "$mail_user" || -z "$mail_domain" ]; then
 fi
 
 #=================================================
-# INSTALL DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Updating NodeJS..." --weight=1
-#REMOVEME? ynh_exec_warn_less #REMOVEME? ynh_install_nodejs --#REMOVEME? nodejs_version="$nodejs_version"
-
-#REMOVEME? ynh_script_progression --message="Updating Ruby..." --weight=4
-#REMOVEME? ynh_exec_warn_less #REMOVEME? ynh_install_ruby --#REMOVEME? ruby_version="$ruby_version"
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Upgrading source files..." --weight=1
