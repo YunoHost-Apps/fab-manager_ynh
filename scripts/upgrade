@@ -8,44 +8,44 @@ source /usr/share/yunohost/helpers
 #=================================================
 
 admin_mail=$(ynh_user_get_info --username="$admin" --key=mail)
-mail_user=$(ynh_app_setting_get --app="$app" --key="mail_user")
-mail_domain=$(ynh_app_setting_get --app="$app" --key="mail_domain")
+mail_user=$(ynh_app_setting_get --key="mail_user")
+mail_domain=$(ynh_app_setting_get --key="mail_domain")
 
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping $app's systemd service..." --weight=1
+ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name="${app}-app" --action="stop" --log_path=systemd
-ynh_systemd_action --service_name="${app}-worker" --action="stop" --log_path=systemd
+ynh_systemctl --service="${app}-app" --action="stop" --log_path=systemd
+ynh_systemctl --service="${app}-worker" --action="stop" --log_path=systemd
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+ynh_script_progression "Ensuring downward compatibility..."
 
-if ynh_exec_warn_less yunohost service status "$app" >/dev/null; then
-    ynh_script_progression --message="Removing $app service integration..."
+if ynh_hide_warnings yunohost service status "$app" >/dev/null; then
+    ynh_script_progression "Removing $app service integration..."
     yunohost service remove "$app"
 fi
 
-ynh_remove_logrotate
+ynh_config_remove_logrotate
 
-ynh_secure_remove --file="/etc/supervisor/conf.d/$app.conf"
-ynh_secure_remove --file="/var/log/supervisor/$app-app-stderr.log"
-ynh_secure_remove --file="/var/log/supervisor/$app-app-stdout.log"
-ynh_secure_remove --file="/var/log/supervisor/$app-worker-stderr.log"
-ynh_secure_remove --file="/var/log/supervisor/$app-worker-stdout.log"
+ynh_safe_rm "/etc/supervisor/conf.d/$app.conf"
+ynh_safe_rm "/var/log/supervisor/$app-app-stderr.log"
+ynh_safe_rm "/var/log/supervisor/$app-app-stdout.log"
+ynh_safe_rm "/var/log/supervisor/$app-worker-stderr.log"
+ynh_safe_rm "/var/log/supervisor/$app-worker-stdout.log"
 
 if [ -z "$mail_user" || -z "$mail_domain" ]; then
-    mail_user=$(ynh_app_setting_set --app="$app" --key="mail_user" --value="$app")
-    mail_domain=$(ynh_app_setting_set --app="$app" --key="mail_domain" --value="$domain")
+    mail_user=$(ynh_app_setting_set --key="mail_user" --value="$app")
+    mail_domain=$(ynh_app_setting_set --key="mail_domain" --value="$domain")
 fi
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Upgrading source files..." --weight=1
+ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
 to_keep=(
@@ -54,32 +54,25 @@ to_keep=(
     invoices payment_schedules exports imports supporting_document_files plugins accounting
 )
 
-ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="${to_keep[*]}"
-
-chmod -R o-rwx "$install_dir"
-chown -R "$app:www-data" "$install_dir"
+ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="${to_keep[*]}"
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a configuration file..." --weight=1
+ynh_script_progression "Updating configuration..."
 
-ynh_add_config --template="dot_env" --destination="$install_dir/.env"
-chmod 400 "$install_dir/.env"
-chown "$app:$app" "$install_dir/.env"
+ynh_config_add --template="dot_env" --destination="$install_dir/.env"
 
-ynh_add_config --template="database.yml" --destination="$install_dir/config/database.yml"
-chmod 400 "$install_dir/config/database.yml"
-chown "$app:$app" "$install_dir/config/database.yml"
+ynh_config_add --template="database.yml" --destination="$install_dir/config/database.yml"
 
 #=================================================
 # BUILD APP
 #=================================================
-ynh_script_progression --message="Building app..." --weight=7
+ynh_script_progression "Building app..."
 
-ynh_secure_remove --file="$install_dir/.cache"
-ynh_secure_remove --file="$install_dir/node_modules"
-ynh_secure_remove --file="$install_dir/tmp/cache"
+ynh_safe_rm "$install_dir/.cache"
+ynh_safe_rm "$install_dir/node_modules"
+ynh_safe_rm "$install_dir/tmp/cache"
 
 fabmanager_build_ruby
 fabmanager_build_ui
@@ -90,26 +83,26 @@ fabmanager_configure_email
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-ynh_add_nginx_config
+ynh_config_add_nginx
 
-ynh_add_systemd_config --service="$app-app" --template="fab-manager-app.service"
+ynh_config_add_systemd --service="$app-app" --template="fab-manager-app.service"
 yunohost service add "$app-app" --description="$app app service"
 
-ynh_add_systemd_config --service="$app-worker" --template="fab-manager-worker.service"
+ynh_config_add_systemd --service="$app-worker" --template="fab-manager-worker.service"
 yunohost service add "$app-worker" --description="$app worker service"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting $app's systemd service..." --weight=1
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name="${app}-app" --action="start" --log_path=systemd
-ynh_systemd_action --service_name="${app}-worker" --action="start" --log_path=systemd --line_match="Schedules Loaded"
+ynh_systemctl --service="${app}-app" --action="start" --log_path=systemd
+ynh_systemctl --service="${app}-worker" --action="start" --log_path=systemd --wait_until="Schedules Loaded"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"

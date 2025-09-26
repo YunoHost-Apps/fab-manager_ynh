@@ -20,6 +20,7 @@ code = "https://github.com/sleede/fab-manager"
 
 [integration]
 yunohost = ">= 12.1.17"
+helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
 
@@ -57,6 +58,7 @@ ram.runtime = "50M"
     allow_email = true
 
     [resources.install_dir]
+    group = "www-data:r-x"
 
     [resources.data_dir]
 
@@ -99,12 +101,8 @@ ram.runtime = "50M"
         "automake",
         "bison",
         "libtool",
+        "yarn"
     ]
-
-    [resources.apt.extras.yarn]
-    repo = "deb https://dl.yarnpkg.com/debian/ stable main"
-    key = "https://dl.yarnpkg.com/debian/pubkey.gpg"
-    packages = ["yarn"]
 
     [resources.database]
     type = "postgresql"
