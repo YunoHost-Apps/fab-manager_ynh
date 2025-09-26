@@ -7,7 +7,7 @@ name = "Fab-manager"
 description.en = "Fab Lab management solution"
 description.fr = "Solution de gestion de Fab Lab"
 
-version = "6.3.47~ynh1"
+version = "6.3.47~ynh2"
 
 maintainers = []
 
@@ -19,7 +19,8 @@ admindoc = "http://doc.fab.mn"
 code = "https://github.com/sleede/fab-manager"
 
 [integration]
-yunohost = ">= 11.2.27"
+yunohost = ">= 12.1.17"
+helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
 
@@ -57,6 +58,7 @@ ram.runtime = "50M"
     allow_email = true
 
     [resources.install_dir]
+    group = "www-data:r-x"
 
     [resources.data_dir]
 
@@ -99,12 +101,14 @@ ram.runtime = "50M"
         "automake",
         "bison",
         "libtool",
+        "yarn"
     ]
-
-    [resources.apt.extras.yarn]
-    repo = "deb https://dl.yarnpkg.com/debian/ stable main"
-    key = "https://dl.yarnpkg.com/debian/pubkey.gpg"
-    packages = ["yarn"]
 
     [resources.database]
     type = "postgresql"
+
+    [resources.nodejs]
+    version = "18"
+
+    [resources.ruby]
+    version = "3.2.2"
