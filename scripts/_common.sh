@@ -43,7 +43,8 @@ check_password_policy() {
 fabmanager_build_ruby() {
     pushd "$install_dir"
         gem update --system --no-document
-        gem install bundler rake --no-document
+        gem install bundler -v '~> 2.7' --no-document
+        gem install rake --no-document
         ynh_hide_warnings ynh_exec_as_app bin/bundle config --global frozen 1
         ynh_hide_warnings ynh_exec_as_app bin/bundle config set without 'development test doc'
         ynh_hide_warnings ynh_exec_as_app bin/bundle config set path 'vendor/bundle'
