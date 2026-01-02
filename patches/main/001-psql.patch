@@ -1,0 +1,14 @@
+diff --git a/db/structure.sql b/db/structure.sql
+index 6860ce27c..5a1c5eaa7 100644
+--- a/db/structure.sql
++++ b/db/structure.sql
+@@ -1,7 +1,7 @@
+ SET statement_timeout = 0;
+ SET lock_timeout = 0;
+ SET idle_in_transaction_session_timeout = 0;
+-SET transaction_timeout = 0;
++-- SET transaction_timeout = 0;
+ SET client_encoding = 'UTF8';
+ SET standard_conforming_strings = on;
+ SELECT pg_catalog.set_config('search_path', '', false);
+
