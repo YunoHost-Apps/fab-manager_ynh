@@ -74,8 +74,6 @@ ram.runtime = "50M"
         "libc-dev",
         "libidn11-dev",
         "libpq-dev",
-        "ntp",
-        "ntpdate",
         "patch",
         "postgresql-client",
         "postgresql-common",
@@ -101,8 +99,16 @@ ram.runtime = "50M"
         "automake",
         "bison",
         "libtool",
-        "yarn"
     ]
+
+packages_from_raw_bash = """
+   if [[ $YNH_DEBIAN_VERSION == "bookworm" ]]; then
+       echo "ntp ntpdate";
+   elif [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
+       echo "openntpd ntpsec";
+   fi
+   """
+
 
     [resources.database]
     type = "postgresql"
