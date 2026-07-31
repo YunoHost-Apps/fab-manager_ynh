@@ -55,6 +55,7 @@ fabmanager_build_ruby() {
 
 fabmanager_build_ui() {
     pushd "$install_dir"
+        ynh_hide_warnings corepack enable && corepack prepare yarn@4.13.0 --activate
         ynh_hide_warnings ynh_exec_as_app yarn install
         ynh_hide_warnings ynh_exec_as_app bash -c "set -a; source '$install_dir/.env'; set +a ; RAILS_ENV=production bin/bundle exec rake assets:precompile"
         ynh_hide_warnings ynh_exec_as_app yarn cache clean --all
