@@ -105,7 +105,7 @@ packages_from_raw_bash = """
    if [[ $YNH_DEBIAN_VERSION == "bookworm" ]]; then
        echo "ntp ntpdate";
    elif [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
-       echo "openntpd ntpsec";
+       echo "openntpd";
    fi
    """
 
