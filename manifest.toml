@@ -7,7 +7,7 @@ name = "Fab-manager"
 description.en = "Fab Lab management solution"
 description.fr = "Solution de gestion de Fab Lab"
 
-version = "6.5.8~ynh1"
+version = "6.5.10~ynh1"
 
 maintainers = []
 
@@ -49,8 +49,8 @@ ram.runtime = "50M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.5.8.tar.gz"
-    sha256 = "6298b814f7c564d2e30780ab58aa82586970d45068e4bd3c216795b5e5d7b999"
+    url = "https://github.com/sleede/fab-manager/archive/refs/tags/v6.5.10.tar.gz"
+    sha256 = "020598a57197e65ce814929873a24b1ac059423ecdd0d1f3b713fe52cba1de0b"
 
     autoupdate.strategy = "latest_github_tag"
 
@@ -105,7 +105,7 @@ packages_from_raw_bash = """
    if [[ $YNH_DEBIAN_VERSION == "bookworm" ]]; then
        echo "ntp ntpdate";
    elif [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
-       echo "openntpd ntpsec";
+       echo "openntpd";
    fi
    """
 
